@@ -3,617 +3,573 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>나는 평균인가?</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<title>나는 평균인가? — 대한민국 통계 비교 시리즈</title>
+<meta name="description" content="월급, 키, 자산, 수면시간... 나는 평균인가? 통계청 데이터로 내 위치를 확인해보세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #f5f0e8;
+    --red: #e03e1a;
+    --dark: #1a1a1a;
+    --card: #ffffff;
+    --gray: #888;
+    --light: #f0ebe0;
+    --border: #e0d8cc;
+  }
 
-body {
-  background: #f5f0e8;
-  font-family: 'Noto Sans KR', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px 60px;
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.container { width: 100%; max-width: 420px; }
+  body {
+    background: var(--bg);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-.header { text-align: center; margin-bottom: 40px; }
-.title {
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 42px;
-  color: #111;
-  letter-spacing: -1px;
-  line-height: 1.1;
-  margin-bottom: 8px;
-}
-.title em { color: #e03e1a; font-style: normal; }
-.sub { font-size: 13px; color: #888; }
+  /* ── HERO ── */
+  .hero {
+    padding: 60px 24px 48px;
+    text-align: center;
+    position: relative;
+    max-width: 640px;
+    margin: 0 auto;
+  }
 
-.input-wrap {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border: 2px solid #111;
-  border-radius: 16px;
-  padding: 0 20px;
-  margin-bottom: 14px;
-  height: 72px;
-  box-shadow: 4px 4px 0 #111;
-}
-.input-prefix {
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 22px;
-  color: #e03e1a;
-  margin-right: 4px;
-  flex-shrink: 0;
-}
-input[type="number"] {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 32px;
-  color: #111;
-  background: transparent;
-  width: 100%;
-  -moz-appearance: textfield;
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-input::placeholder { color: #ccc; }
-.input-suffix { font-size: 14px; color: #888; flex-shrink: 0; margin-left: 6px; }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--dark);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    text-transform: uppercase;
+    animation: fadeUp 0.5s ease both;
+  }
 
-.btn {
-  width: 100%;
-  height: 60px;
-  background: #111;
-  color: #f5f0e8;
-  border: none;
-  border-radius: 14px;
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 20px;
-  cursor: pointer;
-  letter-spacing: 1px;
-  transition: transform 0.1s, box-shadow 0.1s;
-  box-shadow: 4px 4px 0 #e03e1a;
-}
-.btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 #e03e1a; }
-.btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #e03e1a; }
+  .hero-dot {
+    width: 6px; height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: blink 1.4s infinite;
+  }
 
-#result { display: none; margin-top: 32px; animation: up 0.4s ease; }
-@keyframes up {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
 
-.section-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #aaa;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-align: center;
-  margin-bottom: 14px;
-}
+  .hero-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(44px, 12vw, 80px);
+    color: var(--dark);
+    line-height: 1.0;
+    margin-bottom: 16px;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
 
-/* 캡처 대상 영역 */
-#capture-area {
-  background: #f5f0e8;
-  padding: 24px 20px 20px;
-  border-radius: 20px;
-}
+  .hero-title .accent { color: var(--red); }
 
-.country-card {
-  background: #fff;
-  border: 2px solid #111;
-  border-radius: 16px;
-  padding: 18px 20px 16px;
-  margin-bottom: 10px;
-  box-shadow: 3px 3px 0 #111;
-  opacity: 0;
-  transform: translateY(10px);
-}
-.country-card.show { animation: cardIn 0.35s ease forwards; }
-@keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+  .hero-title .question {
+    display: inline-block;
+    position: relative;
+  }
 
-.card-top {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-.flag { font-size: 28px; flex-shrink: 0; line-height: 1; }
-.info { flex: 1; }
-.c-name { font-size: 13px; color: #888; margin-bottom: 5px; }
-.bar-track { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 1s cubic-bezier(0.34,1.56,0.64,1); }
-.pct {
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 26px;
-  letter-spacing: -1px;
-  flex-shrink: 0;
-  text-align: right;
-  min-width: 86px;
-}
-.pct small { font-size: 13px; font-family: 'Noto Sans KR', sans-serif; font-weight: 400; color: #aaa; }
+  .hero-title .question::after {
+    content: '';
+    position: absolute;
+    bottom: 4px; left: 0; right: 0;
+    height: 6px;
+    background: var(--red);
+    opacity: 0.2;
+    border-radius: 3px;
+  }
 
-.power-row {
-  display: flex;
-  gap: 8px;
-  border-top: 1px dashed #eee;
-  padding-top: 11px;
-}
-.power-item {
-  flex: 1;
-  background: #f9f7f3;
-  border-radius: 10px;
-  padding: 9px 10px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.power-icon { font-size: 20px; flex-shrink: 0; line-height: 1; }
-.power-count {
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 17px;
-  color: #111;
-  letter-spacing: -0.5px;
-  line-height: 1.1;
-}
-.power-label { font-size: 10px; color: #aaa; margin-top: 1px; }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
 
-/* 캡처 영역 하단 워터마크 */
-.watermark {
-  text-align: center;
-  font-size: 11px;
-  color: #bbb;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid #e8e3d8;
-  line-height: 1.6;
-}
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
 
-/* 공유 버튼 영역 (캡처 제외) */
-.share-area {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 28px;
+    color: var(--red);
+    line-height: 1;
+  }
+  .stat-label { font-size: 11px; color: var(--gray); margin-top: 4px; font-weight: 700; letter-spacing: 1px; }
 
-.share-btn {
-  width: 100%;
-  height: 54px;
-  border: none;
-  border-radius: 14px;
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 17px;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: transform 0.1s, box-shadow 0.1s;
-}
+  .hero-divider {
+    width: 40px; height: 3px;
+    background: var(--red);
+    margin: 40px auto 0;
+    border-radius: 2px;
+    animation: fadeUp 0.5s 0.35s ease both;
+  }
 
-.btn-save {
-  background: #111;
-  color: #f5f0e8;
-  box-shadow: 3px 3px 0 #555;
-}
-.btn-save:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #555; }
-.btn-save:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #555; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-.btn-insta {
-  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  color: #fff;
-  box-shadow: 3px 3px 0 #8b0057;
-}
-.btn-insta:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #8b0057; }
-.btn-insta:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #8b0057; }
+  /* ── CARDS ── */
+  .cards-section {
+    padding: 40px 20px 60px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
 
-/* 로딩 스피너 */
-.spinner {
-  width: 18px; height: 18px;
-  border: 2px solid rgba(255,255,255,0.4);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  flex-shrink: 0;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-left: 4px;
+  }
 
-/* 토스트 메시지 */
-#toast {
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: #111;
-  color: #fff;
-  padding: 12px 22px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 700;
-  opacity: 0;
-  transition: all 0.3s ease;
-  z-index: 9999;
-  white-space: nowrap;
-  pointer-events: none;
-}
-#toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
 
-.share-row {
-  display: flex;
-  gap: 10px;
-}
-.share-btn-sm {
-  flex: 1;
-  height: 54px;
-  border: none;
-  border-radius: 14px;
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 15px;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: transform 0.1s, box-shadow 0.1s;
-}
-.btn-x {
-  background: #000;
-  color: #fff;
-  box-shadow: 3px 3px 0 #444;
-}
-.btn-x:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #444; }
-.btn-x:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #444; }
-.btn-threads {
-  background: #fff;
-  color: #000;
-  border: 2px solid #111;
-  box-shadow: 3px 3px 0 #111;
-}
-.btn-threads:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #111; }
-.btn-threads:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #111; }
+  .calc-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 24px 20px 20px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.5s ease both;
+  }
 
-.source { text-align: center; font-size: 11px; color: #bbb; margin-top: 18px; line-height: 1.6; }
+  .calc-card:nth-child(1) { animation-delay: 0.1s; }
+  .calc-card:nth-child(2) { animation-delay: 0.15s; }
+  .calc-card:nth-child(3) { animation-delay: 0.2s; }
+  .calc-card:nth-child(4) { animation-delay: 0.25s; }
+
+  .calc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+  }
+
+  .calc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--card-accent, #e03e1a);
+  }
+
+  .calc-card.red { --card-accent: #e03e1a; }
+  .calc-card.blue { --card-accent: #3b5bdb; }
+
+  .card-emoji {
+    font-size: 32px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+
+  .tag-red { background: #fce8e4; color: var(--red); }
+  .tag-blue { background: #dbe4ff; color: #3b5bdb; }
+
+  .card-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 20px;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .card-data {
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .card-arrow {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    width: 32px; height: 32px;
+    background: var(--light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .calc-card:hover .card-arrow {
+    background: var(--card-accent, #e03e1a);
+    color: #fff;
+    transform: translateX(3px);
+  }
+
+  /* ── COMING SOON ── */
+  .coming-card {
+    background: var(--light);
+    border-radius: 20px;
+    padding: 24px 20px;
+    border: 2px dashed var(--border);
+    text-align: center;
+    grid-column: 1 / -1;
+    animation: fadeUp 0.5s 0.3s ease both;
+  }
+
+  .coming-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 16px;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+
+  .coming-chips {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray);
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section {
+    background: var(--dark);
+    padding: 48px 24px;
+    text-align: center;
+  }
+
+  .how-inner { max-width: 480px; margin: 0 auto; }
+
+  .how-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .how-sub {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 36px;
+    line-height: 1.6;
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .how-step { text-align: center; }
+
+  .step-num {
+    width: 40px; height: 40px;
+    background: var(--red);
+    border-radius: 50%;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 18px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+  }
+
+  .step-text {
+    font-size: 12px;
+    color: #ccc;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* ── SHARE CTA ── */
+  .cta-section {
+    padding: 48px 24px;
+    text-align: center;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .cta-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(22px, 6vw, 32px);
+    color: var(--dark);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .cta-sub {
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 18px;
+    padding: 16px 36px;
+    border-radius: 14px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 16px rgba(224,62,26,0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(224,62,26,0.4);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .footer-logo span { color: var(--red); }
+
+  .footer-sub {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.8;
+  }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    background: var(--red);
+    overflow: hidden;
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 20s linear infinite;
+  }
+
+  .ticker-inner span {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 14px;
+    color: #fff;
+    padding: 0 32px;
+    letter-spacing: 1px;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 360px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .how-steps { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
-<div id="toast"></div>
-
-<div class="container">
-
-  <div class="header">
-    <div class="title">나는 <em>평균</em>인가?</div>
-    <div class="sub">월 소득을 입력하면 4개국 기준 상위 몇%인지 알려드려요</div>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span>💰 나의 월급은 상위 몇%?</span>
+    <span>📏 나의 키는 상위 몇%?</span>
+    <span>🏦 나의 자산은 상위 몇%?</span>
+    <span>😴 나는 충분히 자고 있을까?</span>
+    <span>💰 나의 월급은 상위 몇%?</span>
+    <span>📏 나의 키는 상위 몇%?</span>
+    <span>🏦 나의 자산은 상위 몇%?</span>
+    <span>😴 나는 충분히 자고 있을까?</span>
   </div>
-
-  <div class="input-wrap">
-    <span class="input-prefix">₩</span>
-    <input type="number" id="income" placeholder="350" min="0"
-           onkeydown="if(event.key==='Enter') calc()">
-    <span class="input-suffix">만원 / 월</span>
-  </div>
-
-  <button class="btn" onclick="calc()">확인하기 →</button>
-
-  <div id="result">
-    <div class="section-label">각 나라에서 나의 위치</div>
-
-    <!-- 이미지 캡처 대상 -->
-    <div id="capture-area">
-      <div id="cards"></div>
-      <div class="watermark">
-        나는 평균인가? · 통계청·US Census·후생노동성·Destatis 2024 기준
-      </div>
-    </div>
-
-    <!-- 공유 버튼 (캡처 제외) -->
-    <div class="share-area">
-      <button class="share-btn btn-save" id="btn-save" onclick="saveImage()">
-        📥 이미지로 저장하기
-      </button>
-      <button class="share-btn btn-insta" id="btn-insta" onclick="shareInstagram()">
-        📷 인스타그램으로 공유하기
-      </button>
-      <div class="share-row">
-        <button class="share-btn-sm btn-x" id="btn-x" onclick="shareX()">
-          𝕏 X에 공유
-        </button>
-        <button class="share-btn-sm btn-threads" id="btn-threads" onclick="shareThreads()">
-          @ 쓰레드 공유
-        </button>
-      </div>
-    </div>
-
-    <div class="source">
-      ※ 같은 금액을 해당 국가에서 번다면 몇 %일지를 나타냅니다<br>
-      빅맥 세트 / 스타벅스 라떼는 현지 실제 가격 기준
-    </div>
-  </div>
-
 </div>
 
-<script>
-const C = [
-  {
-    flag: '🇰🇷', code: 'KR', name: '대한민국',
-    dist: [
-      [0,0],[30,2],[50,4],[80,7],[100,9.5],[130,13],[150,15.5],
-      [180,19],[200,21.5],[230,25],[250,28],[280,31.5],[300,34],
-      [330,38],[350,41],[380,44.5],[400,48],[430,51],[450,53.5],
-      [500,59],[550,64],[600,69],[700,77],[800,83],[900,87.5],
-      [1000,91],[1200,94.5],[1500,97],[2000,98.5],[9999,100]
-    ],
-    bigmac: 0.74, sbux: 0.60
-  },
-  {
-    flag: '🇺🇸', code: 'US', name: '미국',
-    dist: [
-      [0,0],[50,3],[100,7],[150,11],[172,13],[200,16],[250,20],
-      [300,24],[322,25],[400,31],[500,38],[609,50],[700,56],
-      [800,61],[900,66],[1000,70],[1092,75],[1200,79],[1400,83],
-      [1725,90],[2000,93],[2300,95],[3000,97.5],[5175,99],[9999,100]
-    ],
-    bigmac: 1.311, sbux: 0.759
-  },
-  {
-    flag: '🇯🇵', code: 'JP', name: '일본',
-    dist: [
-      [0,0],[30,3],[50,6],[80,11],[100,15],[115,18],[130,21],
-      [150,25],[170,29],[200,35],[220,39],[237,43],[250,46],
-      [270,49],[300,54],[330,58],[353,62],[380,66],[400,69],
-      [430,72],[450,74],[500,79],[537,83],[600,87],[700,91],
-      [800,93.5],[1000,96],[1534,99],[9999,100]
-    ],
-    bigmac: 0.782, sbux: 0.607
-  },
-  {
-    flag: '🇩🇪', code: 'DE', name: '독일',
-    dist: [
-      [0,0],[50,2],[100,4],[150,7],[200,10],[225,13],[250,15],
-      [300,19],[350,24],[400,29],[450,34],[500,39],[550,44],
-      [592,50],[650,56],[700,61],[750,65],[800,69],[900,75],
-      [1000,79],[1050,82],[1200,87],[1500,91],[2000,95],
-      [3150,99],[9999,100]
-    ],
-    bigmac: 1.35, sbux: 0.75
-  }
-];
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <div class="hero-dot"></div>
+    대한민국 통계 비교 시리즈
+  </div>
+  <h1 class="hero-title">
+    나는<br>
+    <span class="question accent">평균</span>인가<span class="accent">?</span>
+  </h1>
+  <p class="hero-sub">
+    월급, 키, 자산, 수면시간까지<br>
+    통계청 공식 데이터로 내 위치를 확인해보세요
+  </p>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">4종</div>
+      <div class="stat-label">계산기</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4개국</div>
+      <div class="stat-label">국제 비교</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">공식 통계</div>
+    </div>
+  </div>
+  <div class="hero-divider"></div>
+</div>
 
-function lerp(v, dist) {
-  if (v <= dist[0][0]) return 0;
-  for (let i = 1; i < dist.length; i++) {
-    const [x1,y1] = dist[i-1], [x2,y2] = dist[i];
-    if (v <= x2) return y1 + (v - x1) / (x2 - x1) * (y2 - y1);
-  }
-  return 99.9;
-}
+<!-- CARDS -->
+<div class="cards-section">
+  <div class="section-label">계산기 선택</div>
+  <div class="cards-grid">
 
-function clr(top) {
-  if (top <= 10) return '#e03e1a';
-  if (top <= 25) return '#f59e0b';
-  if (top <= 50) return '#3b82f6';
-  return '#9ca3af';
-}
+    <a href="am-i-average.html" class="calc-card red">
+      <span class="card-emoji">💰</span>
+      <div class="card-tag tag-red">소득편</div>
+      <div class="card-title">내 월급은<br>상위 몇%?</div>
+      <div class="card-desc">4개국 기준<br>소득 백분위 비교</div>
+      <div class="card-data">통계청 2024</div>
+      <div class="card-arrow">→</div>
+    </a>
 
-function fmt(n) { return n < 1 ? n.toFixed(1) : Math.round(n); }
+    <a href="am-i-tall.html" class="calc-card red">
+      <span class="card-emoji">📏</span>
+      <div class="card-tag tag-red">키편</div>
+      <div class="card-title">내 키는<br>상위 몇%?</div>
+      <div class="card-desc">성별·4개국 기준<br>키 백분위 비교</div>
+      <div class="card-data">CDC · 사이즈코리아</div>
+      <div class="card-arrow">→</div>
+    </a>
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
-}
+    <a href="am-i-rich.html" class="calc-card red">
+      <span class="card-emoji">🏦</span>
+      <div class="card-tag tag-red">자산편</div>
+      <div class="card-title">내 자산은<br>상위 몇%?</div>
+      <div class="card-desc">순자산 기준<br>4개국 비교</div>
+      <div class="card-data">국가데이터처 2025</div>
+      <div class="card-arrow">→</div>
+    </a>
 
-function calc() {
-  const val = parseFloat(document.getElementById('income').value);
-  if (!val || val <= 0) { document.getElementById('income').focus(); return; }
+    <a href="am-i-sleepy.html" class="calc-card blue">
+      <span class="card-emoji">😴</span>
+      <div class="card-tag tag-blue">수면편</div>
+      <div class="card-title">나는 충분히<br>자고 있을까?</div>
+      <div class="card-desc">동년배 비교<br>+ WHO 건강 기준</div>
+      <div class="card-data">통계청 2024</div>
+      <div class="card-arrow">→</div>
+    </a>
 
-  const wrap = document.getElementById('cards');
-  wrap.innerHTML = '';
-  document.getElementById('result').style.display = 'block';
-
-  C.forEach((c, i) => {
-    const below = lerp(val, c.dist);
-    const top   = Math.max(0.1, 100 - below);
-    const color = clr(top);
-    const bigmacCount = Math.floor(val / c.bigmac);
-    const sbuxCount   = Math.floor(val / c.sbux);
-
-    const el = document.createElement('div');
-    el.className = 'country-card';
-    el.style.animationDelay = (i * 0.07) + 's';
-    el.innerHTML = `
-      <div class="card-top">
-        <div class="flag">${c.flag}</div>
-        <div class="info">
-          <div class="c-name">${c.name}</div>
-          <div class="bar-track">
-            <div class="bar-fill" style="background:${color}"></div>
-          </div>
-        </div>
-        <div class="pct" style="color:${color}">상위 ${fmt(top)}<small>%</small></div>
+    <div class="coming-card">
+      <div class="coming-title">🔜 곧 추가될 계산기</div>
+      <div class="coming-chips">
+        <span class="chip">🚗 차량 가격</span>
+        <span class="chip">👔 나이×소득</span>
+        <span class="chip">🍺 음주량</span>
+        <span class="chip">🏃 운동 횟수</span>
       </div>
-      <div class="power-row">
-        <div class="power-item">
-          <div class="power-icon">🍔</div>
-          <div>
-            <div class="power-count">${bigmacCount.toLocaleString()}개</div>
-            <div class="power-label">빅맥 세트 / 월</div>
-          </div>
-        </div>
-        <div class="power-item">
-          <div class="power-icon">☕</div>
-          <div>
-            <div class="power-count">${sbuxCount.toLocaleString()}잔</div>
-            <div class="power-label">스타벅스 라떼 / 월</div>
-          </div>
-        </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="how-inner">
+    <h2 class="how-title">이렇게 사용하세요</h2>
+    <p class="how-sub">3단계로 내 위치를 확인하고 SNS에 공유하세요</p>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <div class="step-text">계산기를<br>선택하고<br>수치 입력</div>
       </div>
-    `;
-    wrap.appendChild(el);
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <div class="step-text">통계 기반<br>백분위&amp;등급<br>즉시 확인</div>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <div class="step-text">이미지 저장 후<br>SNS에<br>공유하기</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    setTimeout(() => {
-      el.classList.add('show');
-      setTimeout(() => {
-        el.querySelector('.bar-fill').style.width = below.toFixed(1) + '%';
-      }, 80);
-    }, i * 70);
-  });
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="cta-title">지금 바로<br>확인해보세요 🔍</h2>
+  <p class="cta-sub">
+    모든 데이터는 통계청, 국가데이터처 등<br>
+    공식 기관 자료를 기반으로 합니다
+  </p>
+  <a href="am-i-average.html" class="cta-btn">💰 소득편부터 시작하기</a>
+</div>
 
-  setTimeout(() => {
-    document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, 150);
-}
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">나는 <span>평균</span>인가?</div>
+  <div class="footer-sub">
+    통계청 · 국가데이터처 · CDC · WHO 공식 데이터 기반<br>
+    모든 계산 결과는 참고용이며 통계적 추정치입니다
+  </div>
+</footer>
 
-/* ============================
-   공유 텍스트 생성
-   ============================ */
-function buildShareText() {
-  const val = parseFloat(document.getElementById('income').value);
-  const lines = C.map(c => {
-    const below = lerp(val, c.dist);
-    const top = Math.max(0.1, 100 - below);
-    return `${c.flag} ${c.name} 상위 ${fmt(top)}%`;
-  });
-  return `나는 평균인가? 테스트 해봤는데...\n\n${lines.join('\n')}\n\n나도 해보기 → naeunpyungin.kr\n#나는평균인가 #소득백분위`;
-}
-
-/* ============================
-   X(트위터) 공유
-   ============================ */
-function shareX() {
-  const text = buildShareText();
-  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-  window.open(url, '_blank', 'width=600,height=500');
-}
-
-/* ============================
-   쓰레드 공유
-   ============================ */
-function shareThreads() {
-  const text = buildShareText();
-  const url = `https://www.threads.net/intent/post?text=${encodeURIComponent(text)}`;
-  window.open(url, '_blank', 'width=600,height=600');
-}
-
-/* ============================
-   이미지 캡처 공통 함수
-   ============================ */
-async function captureResult() {
-  const el = document.getElementById('capture-area');
-
-  // 카드 4장 + 바 애니메이션 완전히 끝날 때까지 대기
-  await new Promise(r => setTimeout(r, 1400));
-
-  const canvas = await html2canvas(el, {
-    backgroundColor: '#f5f0e8',
-    scale: 2,
-    useCORS: true,
-    allowTaint: true,
-    logging: false,
-    onclone: (doc) => {
-      doc.querySelectorAll('.country-card').forEach(c => {
-        c.style.opacity = '1';
-        c.style.transform = 'none';
-        c.style.animation = 'none';
-      });
-      doc.querySelectorAll('.bar-fill').forEach(b => {
-        b.style.transition = 'none';
-      });
-    }
-  });
-  return canvas;
-}
-
-function setBtnLoading(id, loading) {
-  const btn = document.getElementById(id);
-  if (loading) {
-    btn.dataset.orig = btn.innerHTML;
-    btn.innerHTML = `<div class="spinner"></div> 생성 중...`;
-    btn.disabled = true;
-  } else {
-    btn.innerHTML = btn.dataset.orig;
-    btn.disabled = false;
-  }
-}
-
-/* ============================
-   이미지 저장
-   ============================ */
-async function saveImage() {
-  setBtnLoading('btn-save', true);
-  try {
-    const canvas = await captureResult();
-    const link = document.createElement('a');
-    link.download = '나는평균인가_결과.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    showToast('✅ 이미지가 저장됐어요!');
-  } catch(e) {
-    showToast('❌ 저장에 실패했어요. 다시 시도해주세요.');
-  }
-  setBtnLoading('btn-save', false);
-}
-
-/* ============================
-   인스타그램 공유
-   ============================ */
-async function shareInstagram() {
-  setBtnLoading('btn-insta', true);
-  try {
-    const canvas = await captureResult();
-
-    canvas.toBlob(async (blob) => {
-      const file = new File([blob], '나는평균인가.png', { type: 'image/png' });
-
-      // 1순위: Web Share API (모바일에서 인스타 직접 공유 가능)
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: '나는 평균인가?',
-          text: '내 월 소득은 각 나라에서 상위 몇%일까? 나는평균인가.kr 에서 확인!'
-        });
-        showToast('📷 공유 완료!');
-      } else {
-        // 2순위: 클립보드 복사 + 안내
-        try {
-          await navigator.clipboard.write([
-            new ClipboardItem({ 'image/png': blob })
-          ]);
-          showToast('📋 클립보드에 복사됐어요! 인스타에 붙여넣기 하세요');
-        } catch {
-          // 3순위: 그냥 다운로드
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = '나는평균인가_인스타.png';
-          a.click();
-          setTimeout(() => showToast('📥 이미지 저장됐어요! 인스타에 업로드해보세요 🔥'), 300);
-        }
-      }
-      setBtnLoading('btn-insta', false);
-    }, 'image/png');
-
-  } catch(e) {
-    showToast('❌ 공유에 실패했어요. 다시 시도해주세요.');
-    setBtnLoading('btn-insta', false);
-  }
-}
-</script>
 </body>
 </html>
