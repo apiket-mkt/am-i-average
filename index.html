@@ -517,16 +517,21 @@ function shareThreads() {
 async function captureResult() {
   const el = document.getElementById('capture-area');
 
-  // 바 애니메이션이 끝날 때까지 잠깐 대기
-  await new Promise(r => setTimeout(r, 300));
+  // 카드 4장 + 바 애니메이션 완전히 끝날 때까지 대기
+  await new Promise(r => setTimeout(r, 1400));
 
   const canvas = await html2canvas(el, {
     backgroundColor: '#f5f0e8',
     scale: 2,
     useCORS: true,
+    allowTaint: true,
     logging: false,
-    // 이모지 폰트 힌트
     onclone: (doc) => {
+      doc.querySelectorAll('.country-card').forEach(c => {
+        c.style.opacity = '1';
+        c.style.transform = 'none';
+        c.style.animation = 'none';
+      });
       doc.querySelectorAll('.bar-fill').forEach(b => {
         b.style.transition = 'none';
       });
