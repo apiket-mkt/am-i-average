@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 키는 평균인가?</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #f5f0e8;
+  font-family: 'Noto Sans KR', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px 60px;
+}
+
+.container { width: 100%; max-width: 420px; }
+
+.header { text-align: center; margin-bottom: 36px; }
+.title {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 40px;
+  color: #111;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.title em { color: #e03e1a; font-style: normal; }
+.sub { font-size: 13px; color: #888; }
+
+/* 성별 토글 */
+.gender-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.gender-btn {
+  flex: 1;
+  height: 52px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 14px;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 17px;
+  cursor: pointer;
+  color: #aaa;
+  transition: all 0.15s;
+  letter-spacing: 0.5px;
+}
+.gender-btn.active {
+  background: #111;
+  border-color: #111;
+  color: #f5f0e8;
+  box-shadow: 3px 3px 0 #e03e1a;
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #111;
+  border-radius: 16px;
+  padding: 0 20px;
+  margin-bottom: 14px;
+  height: 72px;
+  box-shadow: 4px 4px 0 #111;
+}
+.input-prefix {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 18px;
+  color: #e03e1a;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+input[type="number"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 36px;
+  color: #111;
+  background: transparent;
+  width: 100%;
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button { -webkit-appearance: none; }
+input::placeholder { color: #ccc; }
+.input-suffix { font-size: 14px; color: #888; flex-shrink: 0; margin-left: 6px; }
+
+.btn {
+  width: 100%;
+  height: 60px;
+  background: #111;
+  color: #f5f0e8;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 4px 4px 0 #e03e1a;
+}
+.btn:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 #e03e1a; }
+.btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #e03e1a; }
+
+#result { display: none; margin-top: 32px; animation: up 0.4s ease; }
+@keyframes up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+#capture-area {
+  background: #f5f0e8;
+  padding: 24px 20px 20px;
+  border-radius: 20px;
+}
+
+.country-card {
+  background: #fff;
+  border: 2px solid #111;
+  border-radius: 16px;
+  padding: 18px 20px 16px;
+  margin-bottom: 10px;
+  box-shadow: 3px 3px 0 #111;
+  opacity: 0;
+  transform: translateY(10px);
+}
+.country-card.show { animation: cardIn 0.35s ease forwards; }
+@keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.flag { font-size: 28px; flex-shrink: 0; line-height: 1; }
+.info { flex: 1; }
+.c-name { font-size: 13px; color: #888; margin-bottom: 5px; }
+.bar-track { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 1s cubic-bezier(0.34,1.56,0.64,1); }
+.pct {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 26px;
+  letter-spacing: -1px;
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 86px;
+}
+.pct small { font-size: 13px; font-family: 'Noto Sans KR', sans-serif; font-weight: 400; color: #aaa; }
+
+/* 평균 비교 행 */
+.avg-row {
+  display: flex;
+  gap: 8px;
+  border-top: 1px dashed #eee;
+  padding-top: 11px;
+}
+.avg-item {
+  flex: 1;
+  background: #f9f7f3;
+  border-radius: 10px;
+  padding: 9px 10px;
+  text-align: center;
+}
+.avg-label { font-size: 10px; color: #aaa; margin-bottom: 3px; }
+.avg-val {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 16px;
+  color: #111;
+  letter-spacing: -0.5px;
+}
+.avg-diff {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 14px;
+  letter-spacing: -0.5px;
+}
+
+.watermark {
+  text-align: center;
+  font-size: 11px;
+  color: #bbb;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e8e3d8;
+  line-height: 1.6;
+}
+
+.share-area {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.share-btn {
+  width: 100%;
+  height: 54px;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Black Han Sans', sans-serif;
+  font-size: 17px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn-save {
+  background: #111;
+  color: #f5f0e8;
+  box-shadow: 3px 3px 0 #555;
+}
+.btn-save:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #555; }
+.btn-save:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #555; }
+
+.btn-insta {
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #fff;
+  box-shadow: 3px 3px 0 #8b0057;
+}
+.btn-insta:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #8b0057; }
+.btn-insta:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #8b0057; }
+
+.share-row { display: flex; gap: 10px; }
+.share-btn-sm {
+  flex: 1; height: 54px; border: none; border-radius: 14px;
+  font-family: 'Black Han Sans', sans-serif; font-size: 15px;
+  cursor: pointer; letter-spacing: 0.5px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn-x { background: #000; color: #fff; box-shadow: 3px 3px 0 #444; }
+.btn-x:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #444; }
+.btn-x:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #444; }
+.btn-threads { background: #fff; color: #000; border: 2px solid #111; box-shadow: 3px 3px 0 #111; }
+.btn-threads:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #111; }
+.btn-threads:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #111; }
+
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#toast {
+  position: fixed; bottom: 32px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #111; color: #fff;
+  padding: 12px 22px; border-radius: 30px;
+  font-size: 14px; font-weight: 700;
+  opacity: 0; transition: all 0.3s ease;
+  z-index: 9999; white-space: nowrap; pointer-events: none;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.source { text-align: center; font-size: 11px; color: #bbb; margin-top: 18px; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="container">
+  <div class="header">
+    <div class="title">내 키는 <em>평균</em>인가?</div>
+    <div class="sub">키를 입력하면 4개국 기준 상위 몇%인지 알려드려요</div>
+  </div>
+
+  <!-- 성별 선택 -->
+  <div class="gender-wrap">
+    <button class="gender-btn active" id="btn-male" onclick="setGender('M')">👨 남성</button>
+    <button class="gender-btn" id="btn-female" onclick="setGender('F')">👩 여성</button>
+  </div>
+
+  <!-- 키 입력 -->
+  <div class="input-wrap">
+    <span class="input-prefix">📏</span>
+    <input type="number" id="height" placeholder="175" min="100" max="250"
+           onkeydown="if(event.key==='Enter') calc()">
+    <span class="input-suffix">cm</span>
+  </div>
+
+  <button class="btn" onclick="calc()">확인하기 →</button>
+
+  <div id="result">
+    <div class="section-label">각 나라에서 나의 위치</div>
+
+    <div id="capture-area">
+      <div id="cards"></div>
+      <div class="watermark">
+        내 키는 평균인가? · 병무청·CDC·후생노동성·Destatis 2024 기준
+      </div>
+    </div>
+
+    <div class="share-area">
+      <button class="share-btn btn-save" id="btn-save" onclick="saveImage()">
+        📥 이미지로 저장하기
+      </button>
+      <button class="share-btn btn-insta" id="btn-insta" onclick="shareInstagram()">
+        📷 인스타그램으로 공유하기
+      </button>
+      <div class="share-row">
+        <button class="share-btn-sm btn-x" id="btn-x" onclick="shareX()">
+          𝕏 X에 공유
+        </button>
+        <button class="share-btn-sm btn-threads" id="btn-threads" onclick="shareThreads()">
+          @ 쓰레드 공유
+        </button>
+      </div>
+    </div>
+
+    <div class="source">
+      ※ 같은 키를 해당 국가에서 가진다면 몇 %일지를 나타냅니다<br>
+      성인 기준 · 정규분포 모델 기반 추산
+    </div>
+  </div>
+
+  <!-- 시리즈 네비게이션 -->
+  <div style="background:#fff;border-radius:20px;padding:20px 24px;margin-top:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+    <div style="font-size:12px;font-weight:700;color:#888;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">시리즈 전체 보기</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="index.html" style="flex:1;min-width:70px;text-align:center;padding:10px 6px;background:#f5f0e8;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;color:#1a1a1a;"><span style="display:block;font-size:18px;margin-bottom:3px;">🏠</span>홈</a>
+      <a href="am-i-average.html" style="flex:1;min-width:70px;text-align:center;padding:10px 6px;background:#f5f0e8;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;color:#1a1a1a;"><span style="display:block;font-size:18px;margin-bottom:3px;">💰</span>소득편</a>
+      <a href="am-i-tall.html" style="flex:1;min-width:70px;text-align:center;padding:10px 6px;background:#e03e1a;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;color:#fff;"><span style="display:block;font-size:18px;margin-bottom:3px;">📏</span>키편</a>
+      <a href="am-i-rich.html" style="flex:1;min-width:70px;text-align:center;padding:10px 6px;background:#f5f0e8;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;color:#1a1a1a;"><span style="display:block;font-size:18px;margin-bottom:3px;">🏦</span>자산편</a>
+      <a href="am-i-sleepy.html" style="flex:1;min-width:70px;text-align:center;padding:10px 6px;background:#f5f0e8;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;color:#1a1a1a;"><span style="display:block;font-size:18px;margin-bottom:3px;">😴</span>수면편</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/*
+  ===== 키 분포 설계 =====
+  정규분포 사용: 평균(μ)과 표준편차(σ)로 백분위 계산
+  erf 함수로 누적분포함수(CDF) 구현
+
+  데이터 출처 (성인 기준):
+  🇰🇷 한국
+    남: μ=174.5cm σ=5.8cm (2024 병역판정검사, 나무위키/병무청)
+    여: μ=161.0cm σ=5.5cm (사이즈코리아 8차, 국가기술표준원 2022)
+
+  🇺🇸 미국
+    남: μ=175.4cm σ=7.1cm (CDC NHANES 2015-2016)
+    여: μ=161.6cm σ=6.9cm (CDC NHANES 2015-2016)
+
+  🇯🇵 일본
+    남: μ=171.0cm σ=5.8cm (후생노동성 국민건강영양조사 2023)
+    여: μ=158.0cm σ=5.5cm (후생노동성 국민건강영양조사 2023)
+
+  🇩🇪 독일
+    남: μ=180.0cm σ=7.0cm (Destatis/유럽통계청 2019)
+    여: μ=166.0cm σ=6.5cm (Destatis/유럽통계청 2019)
+*/
+
+let gender = 'M';
+
+const DATA = {
+  M: [
+    { flag: '🇰🇷', name: '대한민국', mu: 174.5, sigma: 5.8 },
+    { flag: '🇺🇸', name: '미국',     mu: 175.3, sigma: 7.1 },
+    { flag: '🇯🇵', name: '일본',     mu: 171.0, sigma: 5.8 },
+    { flag: '🇩🇪', name: '독일',     mu: 180.0, sigma: 7.0 },
+  ],
+  F: [
+    { flag: '🇰🇷', name: '대한민국', mu: 161.0, sigma: 5.5 },
+    { flag: '🇺🇸', name: '미국',     mu: 161.3, sigma: 6.9 },
+    { flag: '🇯🇵', name: '일본',     mu: 158.0, sigma: 5.5 },
+    { flag: '🇩🇪', name: '독일',     mu: 166.0, sigma: 6.5 },
+  ]
+};
+
+function setGender(g) {
+  gender = g;
+  document.getElementById('btn-male').classList.toggle('active', g === 'M');
+  document.getElementById('btn-female').classList.toggle('active', g === 'F');
+  // 결과 있으면 재계산
+  const val = parseFloat(document.getElementById('height').value);
+  if (val > 0) calc();
+}
+
+// 오차함수(erf) 근사 - Abramowitz and Stegun
+function erf(x) {
+  const sign = x >= 0 ? 1 : -1;
+  x = Math.abs(x);
+  const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+  const t = 1.0 / (1.0 + p * x);
+  const y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t * Math.exp(-x*x);
+  return sign * y;
+}
+
+// 정규분포 누적분포함수 → 하위 몇%
+function normCDF(x, mu, sigma) {
+  return 0.5 * (1 + erf((x - mu) / (sigma * Math.sqrt(2))));
+}
+
+function clr(top) {
+  if (top <= 10) return '#e03e1a';
+  if (top <= 25) return '#f59e0b';
+  if (top <= 50) return '#3b82f6';
+  return '#9ca3af';
+}
+
+function fmt(n) { return n < 1 ? n.toFixed(1) : Math.round(n); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function calc() {
+  const val = parseFloat(document.getElementById('height').value);
+  if (!val || val < 100 || val > 250) {
+    document.getElementById('height').focus();
+    return;
+  }
+
+  const countries = DATA[gender];
+  const wrap = document.getElementById('cards');
+  wrap.innerHTML = '';
+  document.getElementById('result').style.display = 'block';
+
+  countries.forEach((c, i) => {
+    const below = normCDF(val, c.mu, c.sigma) * 100;
+    const top   = Math.max(0.1, 100 - below);
+    const color = clr(top);
+    const diff  = val - c.mu;
+    const diffStr = (diff >= 0 ? '+' : '') + diff.toFixed(1);
+    const diffColor = diff >= 0 ? '#3b82f6' : '#e03e1a';
+
+    const el = document.createElement('div');
+    el.className = 'country-card';
+    el.style.animationDelay = (i * 0.07) + 's';
+    el.innerHTML = `
+      <div class="card-top">
+        <div class="flag">${c.flag}</div>
+        <div class="info">
+          <div class="c-name">${c.name}</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="background:${color}"></div>
+          </div>
+        </div>
+        <div class="pct" style="color:${color}">상위 ${fmt(top)}<small>%</small></div>
+      </div>
+      <div class="avg-row">
+        <div class="avg-item">
+          <div class="avg-label">현지 평균</div>
+          <div class="avg-val">${c.mu}cm</div>
+        </div>
+        <div class="avg-item">
+          <div class="avg-label">평균과의 차이</div>
+          <div class="avg-diff" style="color:${diffColor}">${diffStr}cm</div>
+        </div>
+        <div class="avg-item">
+          <div class="avg-label">나보다 큰 사람</div>
+          <div class="avg-val">${fmt(top)}%</div>
+        </div>
+      </div>
+    `;
+    wrap.appendChild(el);
+
+    setTimeout(() => {
+      el.classList.add('show');
+      setTimeout(() => {
+        el.querySelector('.bar-fill').style.width = below.toFixed(1) + '%';
+      }, 80);
+    }, i * 70);
+  });
+
+  setTimeout(() => {
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 150);
+}
+
+function buildShareText() {
+  const val = parseFloat(document.getElementById('height').value);
+  const countries = DATA[gender];
+  const gLabel = gender === 'M' ? '남성' : '여성';
+  const lines = countries.map(c => {
+    const below = normCDF(val, c.mu, c.sigma) * 100;
+    const top = Math.max(0.1, 100 - below);
+    return `${c.flag} ${c.name} 상위 ${fmt(top)}%`;
+  });
+  return `내 키는 평균인가? (${gLabel} 기준)\n\n${lines.join('\n')}\n\n나도 해보기 → naeunpyungin.kr\n#내키는평균인가 #키백분위`;
+}
+
+function shareX() {
+  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(buildShareText())}`;
+  window.open(url, '_blank', 'width=600,height=500');
+}
+
+function shareThreads() {
+  const url = `https://www.threads.net/intent/post?text=${encodeURIComponent(buildShareText())}`;
+  window.open(url, '_blank', 'width=600,height=600');
+}
+
+async function captureResult() {
+  const el = document.getElementById('capture-area');
+  await new Promise(r => setTimeout(r, 1400));
+  return html2canvas(el, {
+    backgroundColor: '#f5f0e8', scale: 2, useCORS: true, allowTaint: true, logging: false,
+    onclone: (doc) => {
+      doc.querySelectorAll('.country-card').forEach(c => {
+        c.style.opacity = '1'; c.style.transform = 'none'; c.style.animation = 'none';
+      });
+      doc.querySelectorAll('.bar-fill').forEach(b => { b.style.transition = 'none'; });
+    }
+  });
+}
+
+function setBtnLoading(id, loading) {
+  const btn = document.getElementById(id);
+  if (loading) { btn.dataset.orig = btn.innerHTML; btn.innerHTML = `<div class="spinner"></div> 생성 중...`; btn.disabled = true; }
+  else { btn.innerHTML = btn.dataset.orig; btn.disabled = false; }
+}
+
+async function saveImage() {
+  setBtnLoading('btn-save', true);
+  try {
+    const canvas = await captureResult();
+    const link = document.createElement('a');
+    link.download = '내키는평균인가_결과.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    showToast('✅ 이미지가 저장됐어요!');
+  } catch(e) { showToast('❌ 저장에 실패했어요.'); }
+  setBtnLoading('btn-save', false);
+}
+
+async function shareInstagram() {
+  setBtnLoading('btn-insta', true);
+  try {
+    const canvas = await captureResult();
+    canvas.toBlob(async (blob) => {
+      const file = new File([blob], '내키는평균인가.png', { type: 'image/png' });
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: '내 키는 평균인가?' });
+        showToast('📷 공유 완료!');
+      } else {
+        try {
+          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+          showToast('📋 클립보드에 복사됐어요! 인스타에 붙여넣기 하세요');
+        } catch {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a'); a.href = url; a.download = '내키는평균인가.png'; a.click();
+          setTimeout(() => showToast('📥 이미지 저장됐어요! 인스타에 업로드해보세요 🔥'), 300);
+        }
+      }
+      setBtnLoading('btn-insta', false);
+    }, 'image/png');
+  } catch(e) { showToast('❌ 공유에 실패했어요.'); setBtnLoading('btn-insta', false); }
+}
+</script>
+</body>
+</html>

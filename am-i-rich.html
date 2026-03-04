@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나는 평균인가? - 자산편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --red: #e03e1a;
+    --dark: #1a1a1a;
+    --card: #ffffff;
+    --gray: #888;
+    --light-gray: #f0ebe0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; padding: 20px 16px 60px; }
+  .header { text-align: center; padding: 32px 0 24px; }
+  .series-badge { display: inline-block; background: var(--dark); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; }
+  .main-title { font-family: 'Black Han Sans', sans-serif; font-size: clamp(32px, 8vw, 52px); color: var(--dark); line-height: 1.1; margin-bottom: 8px; }
+  .main-title span { color: var(--red); }
+  .subtitle { font-size: 14px; color: var(--gray); margin-top: 8px; }
+  .container { max-width: 480px; margin: 0 auto; }
+  .input-card { background: var(--card); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .input-label { font-size: 13px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; display: block; }
+  .helper-box { background: #fff8f0; border: 1.5px solid #ffe0c0; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; font-size: 13px; line-height: 1.7; color: #666; }
+  .helper-box strong { color: var(--red); font-weight: 700; }
+  .unit-toggle { display: flex; gap: 8px; margin-bottom: 16px; }
+  .unit-btn { flex: 1; padding: 10px; border: 2px solid #e0d8cc; border-radius: 10px; background: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--gray); }
+  .unit-btn.active { border-color: var(--red); color: var(--red); background: #fff5f2; }
+  .input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .asset-input { flex: 1; height: 56px; border: 2px solid #e0d8cc; border-radius: 12px; padding: 0 16px; font-size: 22px; font-weight: 700; font-family: 'Noto Sans KR', sans-serif; color: var(--dark); background: var(--light-gray); outline: none; transition: border-color 0.2s; text-align: right; width: 100%; }
+  .asset-input:focus { border-color: var(--red); background: #fff; }
+  .unit-label { font-size: 16px; font-weight: 700; color: var(--dark); white-space: nowrap; min-width: 36px; }
+  .input-hint { font-size: 12px; color: var(--gray); text-align: right; margin-top: 4px; }
+  .calc-btn { width: 100%; height: 58px; background: var(--red); color: #fff; border: none; border-radius: 14px; font-family: 'Black Han Sans', sans-serif; font-size: 20px; cursor: pointer; margin-top: 20px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(224,62,26,0.3); letter-spacing: 1px; }
+  .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(224,62,26,0.35); }
+  .calc-btn:active { transform: translateY(0); }
+  .result-section { display: none; }
+  .result-section.visible { display: block; }
+  #capture-area { background: var(--card); border-radius: 20px; padding: 28px 24px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .result-header { text-align: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1.5px solid var(--light-gray); }
+  .result-title { font-family: 'Black Han Sans', sans-serif; font-size: 15px; color: var(--gray); letter-spacing: 2px; margin-bottom: 6px; }
+  .result-amount { font-family: 'Black Han Sans', sans-serif; font-size: clamp(22px, 6vw, 30px); color: var(--dark); margin-bottom: 4px; }
+  .result-verdict { font-size: 13px; color: var(--gray); }
+  .country-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .country-card { background: var(--light-gray); border-radius: 14px; padding: 16px 14px; position: relative; overflow: hidden; }
+  .country-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--red); opacity: 0; transition: opacity 0.3s; }
+  .country-card.highlight::before { opacity: 1; }
+  .country-flag { font-size: 22px; margin-bottom: 6px; display: block; }
+  .country-name { font-size: 11px; font-weight: 700; color: var(--gray); letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+  .country-percent { font-family: 'Black Han Sans', sans-serif; font-size: 28px; color: var(--dark); line-height: 1; margin-bottom: 2px; }
+  .country-percent span { font-size: 14px; font-weight: 500; color: var(--gray); }
+  .country-sub { font-size: 11px; color: var(--gray); margin-top: 8px; line-height: 1.5; }
+  .rank-badge { display: inline-block; background: var(--red); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-top: 6px; }
+  .share-section { background: var(--card); border-radius: 20px; padding: 24px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .share-title { font-family: 'Black Han Sans', sans-serif; font-size: 16px; color: var(--dark); margin-bottom: 14px; text-align: center; }
+  .share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .share-btn { padding: 13px 10px; border-radius: 12px; border: none; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .share-btn:hover { transform: translateY(-2px); }
+  .share-btn.save { background: var(--dark); color: #fff; grid-column: 1 / -1; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
+  .share-btn.insta { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366); color: #fff; }
+  .share-btn.x-btn { background: #000; color: #fff; }
+  .share-btn.threads { background: #1a1a1a; color: #fff; }
+  .retry-btn { width: 100%; padding: 16px; background: transparent; border: 2px solid var(--dark); border-radius: 14px; font-family: 'Black Han Sans', sans-serif; font-size: 16px; color: var(--dark); cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
+  .retry-btn:hover { background: var(--light-gray); }
+  .series-nav { background: var(--card); border-radius: 20px; padding: 20px 24px; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .nav-title { font-size: 12px; font-weight: 700; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .nav-links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .nav-link { flex: 1; min-width: 100px; text-align: center; padding: 12px 8px; background: var(--light-gray); border-radius: 12px; text-decoration: none; font-size: 13px; font-weight: 700; color: var(--dark); transition: background 0.2s; }
+  .nav-link:hover { background: #e8e0d0; }
+  .nav-link.active { background: var(--red); color: #fff; }
+  .nav-link .emoji { display: block; font-size: 20px; margin-bottom: 4px; }
+  .data-source { text-align: center; font-size: 11px; color: #aaa; margin-top: 20px; line-height: 1.6; }
+  .progress-wrap { margin-top: 12px; background: #e8e0d0; border-radius: 6px; height: 6px; overflow: hidden; }
+  .progress-bar { height: 100%; background: var(--red); border-radius: 6px; transition: width 0.8s ease; }
+  .watermark { text-align: center; font-size: 11px; color: #bbb; margin-top: 20px; font-weight: 700; letter-spacing: 2px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="series-badge">나는 평균인가? 시리즈</div>
+    <div class="main-title">내 자산은<br><span>상위 몇 %</span>일까?</div>
+    <div class="subtitle">2025 가계금융복지조사 기준 · 4개국 비교</div>
+  </div>
+
+  <div class="input-card" id="input-section">
+    <label class="input-label">순자산 입력</label>
+    <div class="helper-box">
+      💡 <strong>순자산 = 내가 가진 것 − 빚</strong><br>
+      부동산 + 예금 + 주식 + 차량 등을 모두 더한 후,<br>
+      대출·전세보증금 반환 등 빚을 빼주세요.
+    </div>
+    <div class="unit-toggle">
+      <button class="unit-btn active" id="btn-uk" onclick="setUnit('억', this)">억원</button>
+      <button class="unit-btn" id="btn-man" onclick="setUnit('만', this)">만원</button>
+    </div>
+    <div class="input-row">
+      <input type="number" class="asset-input" id="assetInput" placeholder="0" min="0" step="0.1">
+      <div class="unit-label" id="unitLabel">억원</div>
+    </div>
+    <div class="input-hint" id="inputHint">예) 3.5 입력 → 3억 5천만원</div>
+    <button class="calc-btn" onclick="calculate()">🔍 내 자산 순위 확인</button>
+  </div>
+
+  <div class="result-section" id="result-section">
+    <div id="capture-area">
+      <div class="result-header">
+        <div class="result-title">MY WEALTH RANK</div>
+        <div class="result-amount" id="resultAmountDisplay">-</div>
+        <div class="result-verdict" id="resultVerdict">-</div>
+      </div>
+      <div class="country-grid" id="countryGrid"></div>
+      <div class="watermark">나는평균인가.com</div>
+    </div>
+    <div class="share-section">
+      <div class="share-title">결과 공유하기</div>
+      <div class="share-btns">
+        <button class="share-btn save" onclick="saveImage()">📸 이미지 저장</button>
+        <button class="share-btn insta" onclick="shareText('instagram')">📷 인스타그램</button>
+        <button class="share-btn x-btn" onclick="shareText('x')">✕ X (트위터)</button>
+        <button class="share-btn threads" onclick="shareText('threads')">🧵 스레드</button>
+      </div>
+    </div>
+    <button class="retry-btn" onclick="reset()">← 다시 계산하기</button>
+  </div>
+
+  <div class="series-nav">
+    <div class="nav-title">시리즈 전체 보기</div>
+    <div class="nav-links">
+      <a href="am-i-average.html" class="nav-link"><span class="emoji">💰</span>소득편</a>
+      <a href="am-i-tall.html" class="nav-link"><span class="emoji">📏</span>키편</a>
+      <a href="#" class="nav-link active"><span class="emoji">🏦</span>자산편</a>
+    </div>
+  </div>
+  <div class="data-source">
+    🇰🇷 국가데이터처 가계금융복지조사 2025년 기준<br>
+    🇺🇸 Fed SCF 2022년 기준 · 🇯🇵 총무성 2019년 기준 · 🇩🇪 Bundesbank 2021년 기준
+  </div>
+</div>
+
+<script>
+  let currentUnit = '억';
+  let resultData = null;
+
+  const wealthData = {
+    kr: {
+      flag: '🇰🇷', name: '대한민국', nameShort: 'KOREA',
+      year: '2025년 기준',
+      median: 24000,
+      percentiles: [
+        {a:0,t:100},{a:1000,t:85},{a:5000,t:75},{a:10000,t:65},
+        {a:15000,t:58},{a:24000,t:50},{a:35000,t:40},{a:47000,t:35},
+        {a:60000,t:28},{a:80000,t:20},{a:110000,t:10},
+        {a:152000,t:5},{a:250000,t:2},{a:330000,t:1},{a:867000,t:0.1}
+      ]
+    },
+    us: {
+      flag: '🇺🇸', name: '미국', nameShort: 'USA',
+      year: '2022년 기준',
+      median: 26500,
+      percentiles: [
+        {a:0,t:100},{a:2000,t:80},{a:10000,t:65},{a:26500,t:50},
+        {a:60000,t:35},{a:100000,t:25},{a:174000,t:10},
+        {a:380000,t:5},{a:1000000,t:2},{a:1880000,t:1}
+      ]
+    },
+    jp: {
+      flag: '🇯🇵', name: '일본', nameShort: 'JAPAN',
+      year: '2019년 기준',
+      median: 11000,
+      percentiles: [
+        {a:0,t:100},{a:1000,t:80},{a:5000,t:65},{a:11000,t:50},
+        {a:20000,t:38},{a:30000,t:28},{a:46000,t:10},
+        {a:90000,t:5},{a:280000,t:1}
+      ]
+    },
+    de: {
+      flag: '🇩🇪', name: '독일', nameShort: 'GERMANY',
+      year: '2021년 기준',
+      median: 15900,
+      percentiles: [
+        {a:0,t:100},{a:2000,t:80},{a:7000,t:65},{a:15900,t:50},
+        {a:35000,t:35},{a:60000,t:20},{a:105000,t:10},
+        {a:200000,t:5},{a:600000,t:1}
+      ]
+    }
+  };
+
+  function setUnit(unit, btn) {
+    currentUnit = unit;
+    document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('unitLabel').textContent = unit === '억' ? '억원' : '만원';
+    document.getElementById('inputHint').textContent =
+      unit === '억' ? '예) 3.5 입력 → 3억 5천만원' : '예) 5000 입력 → 5천만원';
+    document.getElementById('assetInput').placeholder = unit === '억' ? '0.0' : '0';
+  }
+
+  function toMan(v) {
+    return currentUnit === '억' ? v * 10000 : v;
+  }
+
+  function formatAsset(man) {
+    if (man >= 10000) {
+      const uk = Math.floor(man / 10000);
+      const rem = Math.round((man % 10000) / 100) * 100;
+      if (rem === 0) return uk + '억원';
+      return uk + '억 ' + rem + '만원';
+    }
+    return Math.round(man / 100) * 100 + '만원';
+  }
+
+  function getTopPercent(man, key) {
+    const pts = wealthData[key].percentiles;
+    for (let i = 0; i < pts.length - 1; i++) {
+      if (man >= pts[i].a && man < pts[i+1].a) {
+        const ratio = (man - pts[i].a) / (pts[i+1].a - pts[i].a);
+        const top = pts[i].t - ratio * (pts[i].t - pts[i+1].t);
+        return Math.max(0.1, Math.round(top * 10) / 10);
+      }
+    }
+    if (man >= pts[pts.length-1].a) return pts[pts.length-1].t;
+    return 99;
+  }
+
+  function getRankText(top) {
+    if (top <= 1) return '🔥 상위 1%';
+    if (top <= 5) return '⭐ 상위 5%';
+    if (top <= 10) return '✨ 상위 10%';
+    if (top <= 20) return '👍 상위 20%';
+    if (top <= 30) return '😊 상위 30%';
+    if (top <= 50) return '평균 이상';
+    return '평균 이하';
+  }
+
+  function getVerdict(krTop) {
+    if (krTop <= 1) return '대한민국 자산 상위 1% 🎯';
+    if (krTop <= 5) return '자산 상위 5%, 부자 인증 완료 💎';
+    if (krTop <= 10) return '자산 상위 10% 진입! 🏆';
+    if (krTop <= 20) return '자산 상위 20%, 평균보다 훨씬 위 📈';
+    if (krTop <= 50) return '전국 평균보다 자산이 많아요 👍';
+    if (krTop <= 70) return '아직 성장 중! 가능성은 무한대 💪';
+    return '지금부터 시작하면 됩니다 🌱';
+  }
+
+  function calculate() {
+    const raw = parseFloat(document.getElementById('assetInput').value);
+    if (isNaN(raw) || raw < 0) { alert('순자산을 입력해주세요.'); return; }
+    const man = toMan(raw);
+    const results = {};
+    for (const k of ['kr','us','jp','de']) results[k] = getTopPercent(man, k);
+    resultData = { man, results };
+
+    document.getElementById('resultAmountDisplay').textContent = '순자산 ' + formatAsset(man);
+    document.getElementById('resultVerdict').textContent = getVerdict(results.kr);
+
+    const grid = document.getElementById('countryGrid');
+    grid.innerHTML = '';
+    const order = ['kr','us','jp','de'];
+    for (const k of order) {
+      const c = wealthData[k];
+      const top = results[k];
+      const diff = man - c.median;
+      const diffText = diff >= 0
+        ? '평균보다 ' + formatAsset(Math.abs(diff)) + ' 많음'
+        : '평균보다 ' + formatAsset(Math.abs(diff)) + ' 적음';
+      const card = document.createElement('div');
+      card.className = 'country-card' + (k === 'kr' ? ' highlight' : '');
+      card.innerHTML =
+        '<span class="country-flag">' + c.flag + '</span>' +
+        '<div class="country-name">' + c.nameShort + '</div>' +
+        '<div class="country-percent">' + (top < 1 ? top.toFixed(1) : Math.round(top)) + '<span>%</span></div>' +
+        '<div class="progress-wrap"><div class="progress-bar" style="width:' + Math.min(98, 100 - top + 5) + '%"></div></div>' +
+        '<div class="country-sub">중위자산 ' + formatAsset(c.median) + '<br>' + diffText + '<br><span style="color:#bbb;font-size:10px">' + c.year + '</span></div>' +
+        '<span class="rank-badge">' + getRankText(top) + '</span>';
+      grid.appendChild(card);
+    }
+
+    document.getElementById('input-section').style.display = 'none';
+    document.getElementById('result-section').classList.add('visible');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function reset() {
+    document.getElementById('input-section').style.display = 'block';
+    document.getElementById('result-section').classList.remove('visible');
+    document.getElementById('assetInput').value = '';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function saveImage() {
+    html2canvas(document.getElementById('capture-area'), {backgroundColor:'#ffffff', scale:2, useCORS:true})
+      .then(c => { const a = document.createElement('a'); a.download='내자산순위.png'; a.href=c.toDataURL('image/png'); a.click(); });
+  }
+
+  function buildShareText() {
+    if (!resultData) return '';
+    const r = resultData.results;
+    return '내 순자산 순위를 알아봤어요!\n\n🇰🇷 대한민국 상위 ' + Math.round(r.kr) + '%\n🇺🇸 미국 상위 ' + Math.round(r.us) + '%\n🇯🇵 일본 상위 ' + Math.round(r.jp) + '%\n🇩🇪 독일 상위 ' + Math.round(r.de) + '%\n\n나도 평균인가? 👇\nnaeunpyungin.kr/wealth';
+  }
+
+  function shareText(platform) {
+    const text = buildShareText();
+    const enc = encodeURIComponent(text);
+    if (platform === 'x') window.open('https://twitter.com/intent/tweet?text=' + enc, '_blank');
+    else navigator.clipboard.writeText(text).then(() => alert('텍스트가 복사되었어요!\n' + (platform === 'instagram' ? '인스타그램 스토리' : '스레드') + '에 붙여넣기 하세요 📋'));
+  }
+</script>
+</body>
+</html>

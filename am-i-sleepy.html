@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나는 평균인가? - 수면편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<style>
+  :root {
+    --bg: #f0f0f8;
+    --navy: #1a1a3a;
+    --blue: #3b5bdb;
+    --card: #ffffff;
+    --gray: #888;
+    --light: #e8e8f4;
+    --red: #e03e1a;
+    --green: #2f9e44;
+    --yellow: #e67700;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; padding: 20px 16px 60px; }
+
+  /* 별 배경 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 55% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 65% 85%, rgba(255,255,255,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 480px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .header { text-align: center; padding: 32px 0 24px; }
+  .series-badge { display: inline-block; background: var(--navy); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; }
+  .main-title { font-family: 'Black Han Sans', sans-serif; font-size: clamp(30px, 8vw, 50px); color: var(--navy); line-height: 1.1; margin-bottom: 8px; }
+  .main-title span { color: var(--blue); }
+  .subtitle { font-size: 14px; color: var(--gray); margin-top: 8px; }
+
+  .input-card { background: var(--card); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; box-shadow: 0 4px 24px rgba(59,91,219,0.1); }
+  .input-label { font-size: 13px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; display: block; }
+
+  /* 나이 슬라이더 */
+  .age-section { margin-bottom: 28px; }
+  .age-display { text-align: center; margin-bottom: 16px; }
+  .age-number { font-family: 'Black Han Sans', sans-serif; font-size: 52px; color: var(--navy); line-height: 1; }
+  .age-unit { font-size: 18px; color: var(--gray); font-weight: 700; }
+  .age-avg { font-size: 12px; color: var(--blue); margin-top: 4px; font-weight: 700; }
+
+  input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 6px;
+    background: var(--light);
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 2px 8px rgba(59,91,219,0.4);
+    cursor: pointer;
+  }
+
+  /* 수면시간 입력 */
+  .sleep-section { }
+  .time-input-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0; }
+  .time-box { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .time-label { font-size: 11px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
+  .time-spinner { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .spinner-btn { width: 40px; height: 32px; background: var(--light); border: none; border-radius: 8px; font-size: 16px; cursor: pointer; color: var(--navy); font-weight: 700; transition: background 0.15s; display: flex; align-items: center; justify-content: center; }
+  .spinner-btn:hover { background: #d0d0e8; }
+  .spinner-val { font-family: 'Black Han Sans', sans-serif; font-size: 36px; color: var(--navy); min-width: 64px; text-align: center; line-height: 1.2; padding: 4px 0; }
+  .time-colon { font-family: 'Black Han Sans', sans-serif; font-size: 32px; color: var(--navy); padding-top: 8px; }
+
+  .calc-btn { width: 100%; height: 58px; background: var(--blue); color: #fff; border: none; border-radius: 14px; font-family: 'Black Han Sans', sans-serif; font-size: 20px; cursor: pointer; margin-top: 24px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(59,91,219,0.3); letter-spacing: 1px; }
+  .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,91,219,0.4); }
+
+  /* RESULT */
+  .result-section { display: none; }
+  .result-section.visible { display: block; }
+
+  #capture-area { background: var(--card); border-radius: 20px; padding: 28px 24px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(59,91,219,0.1); }
+
+  .result-header { text-align: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1.5px solid var(--light); }
+  .result-title { font-family: 'Black Han Sans', sans-serif; font-size: 15px; color: var(--gray); letter-spacing: 2px; margin-bottom: 8px; }
+  .result-sleep { font-family: 'Black Han Sans', sans-serif; font-size: clamp(28px, 7vw, 40px); color: var(--navy); margin-bottom: 4px; }
+  .result-verdict { font-size: 13px; color: var(--gray); }
+
+  /* 결과 카드 2개 */
+  .result-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .result-card { border-radius: 16px; padding: 20px 16px; text-align: center; }
+  .result-card.peer { background: #eef2ff; }
+  .result-card.health { background: #f0fdf4; }
+  .result-card.health.warn { background: #fff7ed; }
+  .result-card.health.danger { background: #fff1f2; }
+
+  .card-icon { font-size: 28px; margin-bottom: 8px; }
+  .card-title { font-size: 11px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .card-main { font-family: 'Black Han Sans', sans-serif; font-size: 20px; color: var(--navy); line-height: 1.2; margin-bottom: 6px; }
+  .card-sub { font-size: 11px; color: var(--gray); line-height: 1.5; }
+  .card-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 8px; margin-top: 8px; }
+  .badge-good { background: #d3f9d8; color: #2f9e44; }
+  .badge-warn { background: #ffe8cc; color: #e67700; }
+  .badge-danger { background: #ffe0e0; color: #c92a2a; }
+  .badge-over { background: #dbe4ff; color: #3b5bdb; }
+
+  /* 메인 멘트 */
+  .main-comment { background: var(--navy); color: #fff; border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 20px; }
+  .comment-moon { font-size: 28px; margin-bottom: 8px; }
+  .comment-text { font-size: 15px; font-weight: 700; line-height: 1.6; }
+
+  /* WHO 바 */
+  .who-section { background: var(--light); border-radius: 14px; padding: 16px; margin-bottom: 0; }
+  .who-title { font-size: 11px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+  .who-bar-wrap { position: relative; height: 8px; background: #d0d0e8; border-radius: 8px; margin-bottom: 8px; }
+  .who-bar-range { position: absolute; height: 100%; background: #a5d6a7; border-radius: 8px; }
+  .who-bar-mine { position: absolute; top: -4px; width: 16px; height: 16px; background: var(--blue); border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transform: translateX(-50%); transition: left 0.5s ease; }
+  .who-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--gray); }
+
+  .watermark { text-align: center; font-size: 11px; color: #bbb; margin-top: 20px; font-weight: 700; letter-spacing: 2px; }
+
+  /* SHARE */
+  .share-section { background: var(--card); border-radius: 20px; padding: 24px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(59,91,219,0.1); }
+  .share-title { font-family: 'Black Han Sans', sans-serif; font-size: 16px; color: var(--navy); margin-bottom: 14px; text-align: center; }
+  .share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .share-btn { padding: 13px 10px; border-radius: 12px; border: none; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .share-btn:hover { transform: translateY(-2px); }
+  .share-btn.save { background: var(--navy); color: #fff; grid-column: 1 / -1; }
+  .share-btn.insta { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366); color: #fff; }
+  .share-btn.x-btn { background: #000; color: #fff; }
+  .share-btn.threads { background: #1a1a1a; color: #fff; }
+
+  .retry-btn { width: 100%; padding: 16px; background: transparent; border: 2px solid var(--navy); border-radius: 14px; font-family: 'Black Han Sans', sans-serif; font-size: 16px; color: var(--navy); cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
+  .retry-btn:hover { background: var(--light); }
+
+  /* NAV */
+  .series-nav { background: var(--card); border-radius: 20px; padding: 20px 24px; margin-top: 20px; box-shadow: 0 4px 24px rgba(59,91,219,0.1); }
+  .nav-title { font-size: 12px; font-weight: 700; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .nav-link { flex: 1; min-width: 80px; text-align: center; padding: 10px 6px; background: var(--light); border-radius: 12px; text-decoration: none; font-size: 12px; font-weight: 700; color: var(--navy); transition: background 0.2s; }
+  .nav-link:hover { background: #d0d0e8; }
+  .nav-link.active { background: var(--blue); color: #fff; }
+  .nav-link .emoji { display: block; font-size: 18px; margin-bottom: 3px; }
+
+  .data-source { text-align: center; font-size: 11px; color: #aaa; margin-top: 20px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="series-badge">나는 평균인가? 시리즈</div>
+    <div class="main-title">나는 충분히<br><span>자고 있을까?</span></div>
+    <div class="subtitle">2024 생활시간조사 기준 · WHO 권장 수면시간 비교</div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-card" id="input-section">
+
+    <!-- 나이 슬라이더 -->
+    <div class="age-section">
+      <label class="input-label">나이</label>
+      <div class="age-display">
+        <span class="age-number" id="ageDisplay">30</span>
+        <span class="age-unit">세</span>
+        <div class="age-avg" id="ageAvgLabel">30대 평균 수면 8시간 6분</div>
+      </div>
+      <input type="range" id="ageSlider" min="10" max="75" value="30" oninput="updateAge(this.value)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray);margin-top:6px">
+        <span>10세</span><span>75세</span>
+      </div>
+    </div>
+
+    <!-- 수면 시간 -->
+    <label class="input-label">어젯밤 수면시간</label>
+    <div class="time-input-row">
+      <div class="time-box">
+        <div class="time-label">시간</div>
+        <div class="time-spinner">
+          <button class="spinner-btn" onclick="changeTime('h', 1)">▲</button>
+          <div class="spinner-val" id="hourVal">7</div>
+          <button class="spinner-btn" onclick="changeTime('h', -1)">▼</button>
+        </div>
+      </div>
+      <div class="time-colon">:</div>
+      <div class="time-box">
+        <div class="time-label">분</div>
+        <div class="time-spinner">
+          <button class="spinner-btn" onclick="changeTime('m', 1)">▲</button>
+          <div class="spinner-val" id="minVal">00</div>
+          <button class="spinner-btn" onclick="changeTime('m', -1)">▼</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">🌙 내 수면 분석하기</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-section" id="result-section">
+    <div id="capture-area">
+      <div class="result-header">
+        <div class="result-title">MY SLEEP REPORT</div>
+        <div class="result-sleep" id="resultSleepDisplay">-</div>
+        <div class="result-verdict" id="resultVerdict">-</div>
+      </div>
+
+      <!-- 2개 카드 -->
+      <div class="result-cards" id="resultCards"></div>
+
+      <!-- 메인 멘트 -->
+      <div class="main-comment" id="mainComment">
+        <div class="comment-moon" id="commentMoon">🌙</div>
+        <div class="comment-text" id="commentText">-</div>
+      </div>
+
+      <!-- WHO 바 -->
+      <div class="who-section">
+        <div class="who-title">WHO 권장 수면 범위</div>
+        <div class="who-bar-wrap" id="whoBarWrap">
+          <div class="who-bar-range" id="whoBarRange"></div>
+          <div class="who-bar-mine" id="whoBarMine"></div>
+        </div>
+        <div class="who-labels">
+          <span>4시간</span>
+          <span id="whoRangeLabel">권장: 7~9시간</span>
+          <span>12시간</span>
+        </div>
+      </div>
+
+      <div class="watermark">나는평균인가.com</div>
+    </div>
+
+    <div class="share-section">
+      <div class="share-title">결과 공유하기</div>
+      <div class="share-btns">
+        <button class="share-btn save" onclick="saveImage()">📸 이미지 저장</button>
+        <button class="share-btn insta" onclick="shareText('instagram')">📷 인스타그램</button>
+        <button class="share-btn x-btn" onclick="shareText('x')">✕ X (트위터)</button>
+        <button class="share-btn threads" onclick="shareText('threads')">🧵 스레드</button>
+      </div>
+    </div>
+
+    <button class="retry-btn" onclick="reset()">← 다시 분석하기</button>
+  </div>
+
+  <!-- NAV -->
+  <div class="series-nav">
+    <div class="nav-title">시리즈 전체 보기</div>
+    <div class="nav-links">
+      <a href="am-i-average.html" class="nav-link"><span class="emoji">💰</span>소득편</a>
+      <a href="am-i-tall.html" class="nav-link"><span class="emoji">📏</span>키편</a>
+      <a href="am-i-rich.html" class="nav-link"><span class="emoji">🏦</span>자산편</a>
+      <a href="#" class="nav-link active"><span class="emoji">😴</span>수면편</a>
+    </div>
+  </div>
+
+  <div class="data-source">
+    통계청 2024년 생활시간조사 (2025.07 발표)<br>
+    WHO 권장 수면시간 기준 · 질병관리청 수면 가이드라인
+  </div>
+</div>
+
+<script>
+  // 연령대별 평균 수면시간 (분 단위) - 2024 생활시간조사
+  const ageSleepData = [
+    { min: 10, max: 19, avg: 517, label: '10대', who_min: 480, who_max: 600 },  // 8h37m, WHO 8~10h
+    { min: 20, max: 29, avg: 506, label: '20대', who_min: 420, who_max: 540 },  // 8h26m, WHO 7~9h
+    { min: 30, max: 39, avg: 486, label: '30대', who_min: 420, who_max: 540 },  // 8h6m
+    { min: 40, max: 49, avg: 472, label: '40대', who_min: 420, who_max: 540 },  // 7h52m
+    { min: 50, max: 59, avg: 460, label: '50대', who_min: 420, who_max: 540 },  // 7h40m
+    { min: 60, max: 99, avg: 478, label: '60세+', who_min: 420, who_max: 480 }, // 7h58m, WHO 7~8h
+  ];
+
+  let hours = 7, mins = 0;
+  let currentAge = 30;
+  let resultSnapshot = null;
+
+  function getAgeGroup(age) {
+    return ageSleepData.find(g => age >= g.min && age <= g.max) || ageSleepData[2];
+  }
+
+  function fmtMin(m) {
+    const h = Math.floor(m / 60);
+    const mn = m % 60;
+    if (mn === 0) return h + '시간';
+    return h + '시간 ' + mn + '분';
+  }
+
+  function updateAge(val) {
+    currentAge = parseInt(val);
+    document.getElementById('ageDisplay').textContent = currentAge;
+    const g = getAgeGroup(currentAge);
+    document.getElementById('ageAvgLabel').textContent = g.label + ' 평균 수면 ' + fmtMin(g.avg);
+  }
+
+  function changeTime(type, delta) {
+    if (type === 'h') {
+      hours = Math.max(0, Math.min(14, hours + delta));
+      document.getElementById('hourVal').textContent = hours;
+    } else {
+      mins = (mins + delta * 30 + 120) % 60;
+      document.getElementById('minVal').textContent = String(mins).padStart(2, '0');
+    }
+  }
+
+  function calculate() {
+    const myMins = hours * 60 + mins;
+    if (myMins === 0) { alert('수면시간을 입력해주세요.'); return; }
+
+    const group = getAgeGroup(currentAge);
+    const diff = myMins - group.avg;
+    const whoMin = group.who_min;
+    const whoMax = group.who_max;
+
+    // 동년배 비교
+    let peerStatus, peerBadge, peerBadgeClass, peerIcon;
+    if (diff >= 30) {
+      peerStatus = '평균보다 ' + fmtMin(diff) + '\n더 자고 있어요';
+      peerBadge = '평균 초과 😎'; peerBadgeClass = 'badge-over'; peerIcon = '🌙';
+    } else if (diff >= -15) {
+      peerStatus = group.label + ' 평균과\n비슷해요';
+      peerBadge = '평균 수준 👍'; peerBadgeClass = 'badge-good'; peerIcon = '😊';
+    } else if (diff >= -60) {
+      peerStatus = '평균보다 ' + fmtMin(Math.abs(diff)) + '\n덜 자고 있어요';
+      peerBadge = '평균 이하 😅'; peerBadgeClass = 'badge-warn'; peerIcon = '😪';
+    } else {
+      peerStatus = '평균보다 ' + fmtMin(Math.abs(diff)) + '\n훨씬 덜 자요';
+      peerBadge = '수면 부족 😱'; peerBadgeClass = 'badge-danger'; peerIcon = '😵';
+    }
+
+    // WHO 건강 등급
+    let healthStatus, healthBadge, healthBadgeClass, healthClass, healthIcon;
+    if (myMins < whoMin - 60) {
+      healthStatus = 'WHO 권장보다\n' + fmtMin(whoMin - myMins) + ' 부족';
+      healthBadge = '⚠️ 수면 부족'; healthBadgeClass = 'badge-danger';
+      healthClass = 'danger'; healthIcon = '🔴';
+    } else if (myMins < whoMin) {
+      healthStatus = 'WHO 권장 최소\n' + fmtMin(whoMin - myMins) + ' 아래';
+      healthBadge = '주의 필요'; healthBadgeClass = 'badge-warn';
+      healthClass = 'warn'; healthIcon = '🟡';
+    } else if (myMins <= whoMax) {
+      healthStatus = 'WHO 권장 범위\n내에 있어요';
+      healthBadge = '✅ 건강한 수면'; healthBadgeClass = 'badge-good';
+      healthClass = ''; healthIcon = '🟢';
+    } else {
+      healthStatus = 'WHO 권장보다\n' + fmtMin(myMins - whoMax) + ' 초과';
+      healthBadge = '수면 과다'; healthBadgeClass = 'badge-over';
+      healthClass = ''; healthIcon = '🔵';
+    }
+
+    // 메인 멘트
+    const comments = {
+      danger: ['직장인 중 수면 부족 1위 후보 🏆', '이 정도면 수면 부채가 쌓이고 있어요 💸', '"잠이 보약"이라는 말, 지금 당신에게 하는 말이에요 💊'],
+      warn: ['조금만 더 자면 삶의 질이 달라져요 🌟', '수면 30분이 생산성 2배라는 연구 결과가 있어요 📈', '오늘 밤은 조금 일찍 눕는 건 어떨까요? 🛏️'],
+      good: ['완벽한 수면 습관이에요! 👏', '수면 관리만큼은 상위 클래스 🏅', '이 수면 시간이라면 내일도 활기찰 거예요 ⚡'],
+      over: ['충분한 수면이지만, 너무 길면 오히려 피로할 수 있어요 💤', '수면의 질도 함께 체크해보세요 🔍']
+    };
+    const commentKey = myMins < whoMin - 60 ? 'danger' : myMins < whoMin ? 'warn' : myMins <= whoMax ? 'good' : 'over';
+    const commentList = comments[commentKey];
+    const comment = commentList[Math.floor(Math.random() * commentList.length)];
+    const commentMoons = { danger: '😵', warn: '😪', good: '🌙✨', over: '💤' };
+
+    // 렌더링
+    document.getElementById('resultSleepDisplay').textContent = fmtMin(myMins) + ' 수면';
+    document.getElementById('resultVerdict').textContent = group.label + ' 평균 ' + fmtMin(group.avg) + ' 기준';
+
+    const cards = document.getElementById('resultCards');
+    cards.innerHTML =
+      '<div class="result-card peer">' +
+        '<div class="card-icon">' + peerIcon + '</div>' +
+        '<div class="card-title">동년배 비교</div>' +
+        '<div class="card-main">' + group.label + ' 평균<br>' + fmtMin(group.avg) + '</div>' +
+        '<div class="card-sub">' + peerStatus.replace('\n', '<br>') + '</div>' +
+        '<span class="card-badge ' + peerBadgeClass + '">' + peerBadge + '</span>' +
+      '</div>' +
+      '<div class="result-card health ' + healthClass + '">' +
+        '<div class="card-icon">' + healthIcon + '</div>' +
+        '<div class="card-title">건강 기준</div>' +
+        '<div class="card-main">WHO 권장<br>' + fmtMin(whoMin) + '~' + fmtMin(whoMax) + '</div>' +
+        '<div class="card-sub">' + healthStatus.replace('\n', '<br>') + '</div>' +
+        '<span class="card-badge ' + healthBadgeClass + '">' + healthBadge + '</span>' +
+      '</div>';
+
+    document.getElementById('commentMoon').textContent = commentMoons[commentKey];
+    document.getElementById('commentText').textContent = comment;
+
+    // WHO 바 업데이트 (4h=240min ~ 12h=720min 범위)
+    const barMin = 240, barMax = 720;
+    const rangeStart = ((whoMin - barMin) / (barMax - barMin)) * 100;
+    const rangeWidth = ((whoMax - whoMin) / (barMax - barMin)) * 100;
+    const myPos = Math.min(100, Math.max(0, ((myMins - barMin) / (barMax - barMin)) * 100));
+    document.getElementById('whoBarRange').style.left = rangeStart + '%';
+    document.getElementById('whoBarRange').style.width = rangeWidth + '%';
+    setTimeout(() => {
+      document.getElementById('whoBarMine').style.left = myPos + '%';
+    }, 100);
+    document.getElementById('whoRangeLabel').textContent = '권장: ' + fmtMin(whoMin) + '~' + fmtMin(whoMax);
+
+    resultSnapshot = { myMins, group, diff, peerBadge, healthBadge };
+
+    document.getElementById('input-section').style.display = 'none';
+    document.getElementById('result-section').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function reset() {
+    document.getElementById('input-section').style.display = 'block';
+    document.getElementById('result-section').classList.remove('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function saveImage() {
+    html2canvas(document.getElementById('capture-area'), { backgroundColor: '#ffffff', scale: 2, useCORS: true })
+      .then(c => { const a = document.createElement('a'); a.download = '내수면분석.png'; a.href = c.toDataURL('image/png'); a.click(); });
+  }
+
+  function buildShareText() {
+    if (!resultSnapshot) return '';
+    const { myMins, group, peerBadge, healthBadge } = resultSnapshot;
+    return '나의 수면 시간을 분석해봤어요!\n\n😴 수면시간: ' + fmtMin(myMins) + '\n👥 동년배 비교: ' + peerBadge + '\n🏥 건강 기준: ' + healthBadge + '\n\n나도 평균인가? 👇\nnaeunpyungin.kr/sleep';
+  }
+
+  function shareText(platform) {
+    const text = buildShareText();
+    const enc = encodeURIComponent(text);
+    if (platform === 'x') window.open('https://twitter.com/intent/tweet?text=' + enc, '_blank');
+    else navigator.clipboard.writeText(text).then(() => alert('복사되었어요! ' + (platform === 'instagram' ? '인스타그램' : '스레드') + '에 붙여넣기 하세요 📋'));
+  }
+
+  // 초기화
+  updateAge(30);
+</script>
+</body>
+</html>
