@@ -278,6 +278,31 @@ input::placeholder { color: #ccc; }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 .source { text-align: center; font-size: 11px; color: #bbb; margin-top: 18px; line-height: 1.6; }
+
+  .content-section {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+  }
+  .content-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .content-box h2 {
+    font-family: 'Hahmlet', serif;
+    font-size: 18px;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .content-box p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.9;
+    margin-bottom: 12px;
+  }
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1699205924947729"
      crossorigin="anonymous"></script>
@@ -579,5 +604,18 @@ async function shareInstagram() {
   } catch(e) { showToast('❌ 공유에 실패했어요.'); setBtnLoading('btn-insta', false); }
 }
 </script>
+
+<div class="content-section">
+  <div class="content-box">
+    <h2>키 백분위, 나는 평균보다 클까 작을까?</h2>
+    
+<p>사이즈코리아 조사에 따르면 한국 성인 남성의 평균 키는 약 173cm, 여성은 약 161cm입니다. 키는 유전적 요인이 70~80%를 차지하지만, 영양 상태와 생활 환경에 따라서도 영향을 받습니다.</p>
+<p>국가별로 평균 키 차이는 생각보다 큽니다. 네덜란드 남성 평균은 182cm를 웃돌아 세계 최상위권이며, 일본 성인 남성 평균은 170cm대 초반으로 한국과 비슷한 수준입니다. 미국은 다민족 사회 특성상 178cm 수준의 평균을 보입니다.</p>
+<p>이 계산기는 한국, 미국, 일본, 독일 4개국의 성인 키 분포 데이터를 바탕으로 성별에 따라 내 키가 각 나라에서 상위 몇 %인지 계산합니다. 정규분포 모델을 기반으로 추산한 값으로, 참고용 수치입니다.</p>
+<p style="font-size:12px;color:#aaa;margin-top:16px;">데이터 출처: 사이즈코리아 · CDC NHANES 2021-2023 · 후생노동성 · Destatis</p>
+
+  </div>
+</div>
+
 </body>
 </html>
