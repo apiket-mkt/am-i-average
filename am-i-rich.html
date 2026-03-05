@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>나는 평균인가? - 자산편</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <style>
   :root {
@@ -20,7 +20,7 @@
   body { background: var(--bg); font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; padding: 20px 16px 60px; }
   .header { text-align: center; padding: 32px 0 24px; }
   .series-badge { display: inline-block; background: var(--dark); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; }
-  .main-title { font-family: 'Black Han Sans', sans-serif; font-size: clamp(32px, 8vw, 52px); color: var(--dark); line-height: 1.1; margin-bottom: 8px; }
+  .main-title { font-family: 'Hahmlet', serif; font-size: clamp(32px, 8vw, 52px); color: var(--dark); line-height: 1.1; margin-bottom: 8px; }
   .main-title span { color: var(--red); }
   .subtitle { font-size: 14px; color: var(--gray); margin-top: 8px; }
   .container { max-width: 480px; margin: 0 auto; }
@@ -36,15 +36,15 @@
   .asset-input:focus { border-color: var(--red); background: #fff; }
   .unit-label { font-size: 16px; font-weight: 700; color: var(--dark); white-space: nowrap; min-width: 36px; }
   .input-hint { font-size: 12px; color: var(--gray); text-align: right; margin-top: 4px; }
-  .calc-btn { width: 100%; height: 58px; background: var(--red); color: #fff; border: none; border-radius: 14px; font-family: 'Black Han Sans', sans-serif; font-size: 20px; cursor: pointer; margin-top: 20px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(224,62,26,0.3); letter-spacing: 1px; }
+  .calc-btn { width: 100%; height: 58px; background: var(--red); color: #fff; border: none; border-radius: 14px; font-family: 'Hahmlet', serif; font-size: 20px; cursor: pointer; margin-top: 20px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(224,62,26,0.3); letter-spacing: 1px; }
   .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(224,62,26,0.35); }
   .calc-btn:active { transform: translateY(0); }
   .result-section { display: none; }
   .result-section.visible { display: block; }
   #capture-area { background: var(--card); border-radius: 20px; padding: 28px 24px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
   .result-header { text-align: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1.5px solid var(--light-gray); }
-  .result-title { font-family: 'Black Han Sans', sans-serif; font-size: 15px; color: var(--gray); letter-spacing: 2px; margin-bottom: 6px; }
-  .result-amount { font-family: 'Black Han Sans', sans-serif; font-size: clamp(22px, 6vw, 30px); color: var(--dark); margin-bottom: 4px; }
+  .result-title { font-family: 'Hahmlet', serif; font-size: 15px; color: var(--gray); letter-spacing: 2px; margin-bottom: 6px; }
+  .result-amount { font-family: 'Hahmlet', serif; font-size: clamp(22px, 6vw, 30px); color: var(--dark); margin-bottom: 4px; }
   .result-verdict { font-size: 13px; color: var(--gray); }
   .country-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .country-card { background: var(--light-gray); border-radius: 14px; padding: 16px 14px; position: relative; overflow: hidden; }
@@ -52,12 +52,12 @@
   .country-card.highlight::before { opacity: 1; }
   .country-flag { font-size: 22px; margin-bottom: 6px; display: block; }
   .country-name { font-size: 11px; font-weight: 700; color: var(--gray); letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
-  .country-percent { font-family: 'Black Han Sans', sans-serif; font-size: 28px; color: var(--dark); line-height: 1; margin-bottom: 2px; }
+  .country-percent { font-family: 'Hahmlet', serif; font-size: 28px; color: var(--dark); line-height: 1; margin-bottom: 2px; }
   .country-percent span { font-size: 14px; font-weight: 500; color: var(--gray); }
   .country-sub { font-size: 11px; color: var(--gray); margin-top: 8px; line-height: 1.5; }
   .rank-badge { display: inline-block; background: var(--red); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-top: 6px; }
   .share-section { background: var(--card); border-radius: 20px; padding: 24px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-  .share-title { font-family: 'Black Han Sans', sans-serif; font-size: 16px; color: var(--dark); margin-bottom: 14px; text-align: center; }
+  .share-title { font-family: 'Hahmlet', serif; font-size: 16px; color: var(--dark); margin-bottom: 14px; text-align: center; }
   .share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .share-btn { padding: 13px 10px; border-radius: 12px; border: none; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
   .share-btn:hover { transform: translateY(-2px); }
@@ -65,7 +65,7 @@
   .share-btn.insta { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366); color: #fff; }
   .share-btn.x-btn { background: #000; color: #fff; }
   .share-btn.threads { background: #1a1a1a; color: #fff; }
-  .retry-btn { width: 100%; padding: 16px; background: transparent; border: 2px solid var(--dark); border-radius: 14px; font-family: 'Black Han Sans', sans-serif; font-size: 16px; color: var(--dark); cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
+  .retry-btn { width: 100%; padding: 16px; background: transparent; border: 2px solid var(--dark); border-radius: 14px; font-family: 'Hahmlet', serif; font-size: 16px; color: var(--dark); cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
   .retry-btn:hover { background: var(--light-gray); }
   .series-nav { background: var(--card); border-radius: 20px; padding: 20px 24px; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
   .nav-title { font-size: 12px; font-weight: 700; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
@@ -78,6 +78,31 @@
   .progress-wrap { margin-top: 12px; background: #e8e0d0; border-radius: 6px; height: 6px; overflow: hidden; }
   .progress-bar { height: 100%; background: var(--red); border-radius: 6px; transition: width 0.8s ease; }
   .watermark { text-align: center; font-size: 11px; color: #bbb; margin-top: 20px; font-weight: 700; letter-spacing: 2px; }
+
+  .content-section {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+  }
+  .content-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .content-box h2 {
+    font-family: 'Hahmlet', serif;
+    font-size: 18px;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .content-box p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.9;
+    margin-bottom: 12px;
+  }
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1699205924947729"
      crossorigin="anonymous"></script>
@@ -134,9 +159,11 @@
   <div class="series-nav">
     <div class="nav-title">시리즈 전체 보기</div>
     <div class="nav-links">
+      <a href="index.html" class="nav-link"><span class="emoji">🏠</span>홈</a>
       <a href="am-i-average.html" class="nav-link"><span class="emoji">💰</span>소득편</a>
       <a href="am-i-tall.html" class="nav-link"><span class="emoji">📏</span>키편</a>
       <a href="#" class="nav-link active"><span class="emoji">🏦</span>자산편</a>
+      <a href="am-i-sleepy.html" class="nav-link"><span class="emoji">😴</span>수면편</a>
     </div>
   </div>
   <div class="data-source">
@@ -313,5 +340,18 @@
     else navigator.clipboard.writeText(text).then(() => alert('텍스트가 복사되었어요!\n' + (platform === 'instagram' ? '인스타그램 스토리' : '스레드') + '에 붙여넣기 하세요 📋'));
   }
 </script>
+
+<div class="content-section">
+  <div class="content-box">
+    <h2>내 순자산은 대한민국 상위 몇 %일까?</h2>
+    
+<p>국가데이터처가 발표한 <strong>2025년 가계금융복지조사</strong>에 따르면, 대한민국 가구의 평균 순자산은 약 4억 7천만원입니다. 순자산이란 부동산·금융자산 등 보유 자산에서 대출·부채를 뺀 실질 보유액을 의미합니다.</p>
+<p>하지만 평균은 상위 자산가에 의해 크게 왜곡됩니다. 중위 순자산은 약 2억 4천만원으로, 절반의 가구가 이 금액 이하에 해당합니다. 상위 10%의 순자산은 약 11억원, 상위 1%는 약 33억원을 넘습니다.</p>
+<p>이 계산기는 한국, 미국, 일본, 독일의 공식 가계 자산 통계를 기반으로, 입력한 순자산이 각 나라에서 어느 위치인지 보여줍니다. 자산 규모를 객관적으로 파악하고 재무 목표 설정에 활용해 보세요.</p>
+<p style="font-size:12px;color:#aaa;margin-top:16px;">데이터 출처: 국가데이터처 가계금융복지조사 2025 · Fed SCF 2022 · 총무성 2019 · Bundesbank 2021</p>
+
+  </div>
+</div>
+
 </body>
 </html>
