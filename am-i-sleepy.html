@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>나는 평균인가? - 수면편</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <style>
   :root {
@@ -43,7 +43,7 @@
 
   .header { text-align: center; padding: 32px 0 24px; }
   .series-badge { display: inline-block; background: var(--navy); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; }
-  .main-title { font-family: 'Black Han Sans', sans-serif; font-size: clamp(30px, 8vw, 50px); color: var(--navy); line-height: 1.1; margin-bottom: 8px; }
+  .main-title { font-family: 'Hahmlet', serif; font-size: clamp(30px, 8vw, 50px); color: var(--navy); line-height: 1.1; margin-bottom: 8px; }
   .main-title span { color: var(--blue); }
   .subtitle { font-size: 14px; color: var(--gray); margin-top: 8px; }
 
@@ -53,7 +53,7 @@
   /* 나이 슬라이더 */
   .age-section { margin-bottom: 28px; }
   .age-display { text-align: center; margin-bottom: 16px; }
-  .age-number { font-family: 'Black Han Sans', sans-serif; font-size: 52px; color: var(--navy); line-height: 1; }
+  .age-number { font-family: 'Hahmlet', serif; font-size: 52px; color: var(--navy); line-height: 1; }
   .age-unit { font-size: 18px; color: var(--gray); font-weight: 700; }
   .age-avg { font-size: 12px; color: var(--blue); margin-top: 4px; font-weight: 700; }
 
@@ -83,10 +83,10 @@
   .time-spinner { display: flex; flex-direction: column; align-items: center; gap: 0; }
   .spinner-btn { width: 40px; height: 32px; background: var(--light); border: none; border-radius: 8px; font-size: 16px; cursor: pointer; color: var(--navy); font-weight: 700; transition: background 0.15s; display: flex; align-items: center; justify-content: center; }
   .spinner-btn:hover { background: #d0d0e8; }
-  .spinner-val { font-family: 'Black Han Sans', sans-serif; font-size: 36px; color: var(--navy); min-width: 64px; text-align: center; line-height: 1.2; padding: 4px 0; }
-  .time-colon { font-family: 'Black Han Sans', sans-serif; font-size: 32px; color: var(--navy); padding-top: 8px; }
+  .spinner-val { font-family: 'Hahmlet', serif; font-size: 36px; color: var(--navy); min-width: 64px; text-align: center; line-height: 1.2; padding: 4px 0; }
+  .time-colon { font-family: 'Hahmlet', serif; font-size: 32px; color: var(--navy); padding-top: 8px; }
 
-  .calc-btn { width: 100%; height: 58px; background: var(--blue); color: #fff; border: none; border-radius: 14px; font-family: 'Black Han Sans', sans-serif; font-size: 20px; cursor: pointer; margin-top: 24px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(59,91,219,0.3); letter-spacing: 1px; }
+  .calc-btn { width: 100%; height: 58px; background: var(--blue); color: #fff; border: none; border-radius: 14px; font-family: 'Hahmlet', serif; font-size: 20px; cursor: pointer; margin-top: 24px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 16px rgba(59,91,219,0.3); letter-spacing: 1px; }
   .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,91,219,0.4); }
 
   /* RESULT */
@@ -96,8 +96,8 @@
   #capture-area { background: var(--card); border-radius: 20px; padding: 28px 24px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(59,91,219,0.1); }
 
   .result-header { text-align: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1.5px solid var(--light); }
-  .result-title { font-family: 'Black Han Sans', sans-serif; font-size: 15px; color: var(--gray); letter-spacing: 2px; margin-bottom: 8px; }
-  .result-sleep { font-family: 'Black Han Sans', sans-serif; font-size: clamp(28px, 7vw, 40px); color: var(--navy); margin-bottom: 4px; }
+  .result-title { font-family: 'Hahmlet', serif; font-size: 15px; color: var(--gray); letter-spacing: 2px; margin-bottom: 8px; }
+  .result-sleep { font-family: 'Hahmlet', serif; font-size: clamp(28px, 7vw, 40px); color: var(--navy); margin-bottom: 4px; }
   .result-verdict { font-size: 13px; color: var(--gray); }
 
   /* 결과 카드 2개 */
@@ -110,7 +110,7 @@
 
   .card-icon { font-size: 28px; margin-bottom: 8px; }
   .card-title { font-size: 11px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-  .card-main { font-family: 'Black Han Sans', sans-serif; font-size: 20px; color: var(--navy); line-height: 1.2; margin-bottom: 6px; }
+  .card-main { font-family: 'Hahmlet', serif; font-size: 20px; color: var(--navy); line-height: 1.2; margin-bottom: 6px; }
   .card-sub { font-size: 11px; color: var(--gray); line-height: 1.5; }
   .card-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 8px; margin-top: 8px; }
   .badge-good { background: #d3f9d8; color: #2f9e44; }
@@ -135,7 +135,7 @@
 
   /* SHARE */
   .share-section { background: var(--card); border-radius: 20px; padding: 24px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(59,91,219,0.1); }
-  .share-title { font-family: 'Black Han Sans', sans-serif; font-size: 16px; color: var(--navy); margin-bottom: 14px; text-align: center; }
+  .share-title { font-family: 'Hahmlet', serif; font-size: 16px; color: var(--navy); margin-bottom: 14px; text-align: center; }
   .share-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .share-btn { padding: 13px 10px; border-radius: 12px; border: none; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
   .share-btn:hover { transform: translateY(-2px); }
@@ -144,7 +144,7 @@
   .share-btn.x-btn { background: #000; color: #fff; }
   .share-btn.threads { background: #1a1a1a; color: #fff; }
 
-  .retry-btn { width: 100%; padding: 16px; background: transparent; border: 2px solid var(--navy); border-radius: 14px; font-family: 'Black Han Sans', sans-serif; font-size: 16px; color: var(--navy); cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
+  .retry-btn { width: 100%; padding: 16px; background: transparent; border: 2px solid var(--navy); border-radius: 14px; font-family: 'Hahmlet', serif; font-size: 16px; color: var(--navy); cursor: pointer; letter-spacing: 1px; transition: background 0.2s; }
   .retry-btn:hover { background: var(--light); }
 
   /* NAV */
@@ -157,6 +157,31 @@
   .nav-link .emoji { display: block; font-size: 18px; margin-bottom: 3px; }
 
   .data-source { text-align: center; font-size: 11px; color: #aaa; margin-top: 20px; line-height: 1.6; }
+
+  .content-section {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+  }
+  .content-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .content-box h2 {
+    font-family: 'Hahmlet', serif;
+    font-size: 18px;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .content-box p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.9;
+    margin-bottom: 12px;
+  }
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1699205924947729"
      crossorigin="anonymous"></script>
@@ -263,6 +288,7 @@
   <div class="series-nav">
     <div class="nav-title">시리즈 전체 보기</div>
     <div class="nav-links">
+      <a href="index.html" class="nav-link"><span class="emoji">🏠</span>홈</a>
       <a href="am-i-average.html" class="nav-link"><span class="emoji">💰</span>소득편</a>
       <a href="am-i-tall.html" class="nav-link"><span class="emoji">📏</span>키편</a>
       <a href="am-i-rich.html" class="nav-link"><span class="emoji">🏦</span>자산편</a>
@@ -446,5 +472,18 @@
   // 초기화
   updateAge(30);
 </script>
+
+<div class="content-section">
+  <div class="content-box">
+    <h2>나는 충분히 자고 있을까? 수면시간 분석</h2>
+    
+<p>통계청 <strong>2024년 생활시간조사</strong>에 따르면 한국인의 하루 평균 수면시간은 8시간 1분입니다. 연령대별로는 10대가 8시간 37분으로 가장 길고, 50대가 7시간 40분으로 가장 짧습니다. 특히 이번 조사에서 수면시간이 통계 작성 이래 최초로 감소한 것으로 나타났습니다.</p>
+<p>WHO(세계보건기구)는 성인에게 하루 7~9시간의 수면을 권장합니다. 수면이 부족하면 집중력 저하, 면역력 감소, 심혈관 질환 위험 증가 등 다양한 건강 문제로 이어질 수 있습니다. 반대로 9시간 이상의 과수면도 우울증·심장 질환과 연관이 있다는 연구 결과가 있습니다.</p>
+<p>이 계산기는 나이를 기준으로 동년배 평균 수면시간과 비교하고, WHO 권장 기준에 따라 수면의 질을 판단해드립니다. 내 수면 습관을 객관적으로 점검해보세요.</p>
+<p style="font-size:12px;color:#aaa;margin-top:16px;">데이터 출처: 통계청 생활시간조사 2024 · WHO 수면 권장 가이드라인</p>
+
+  </div>
+</div>
+
 </body>
 </html>
