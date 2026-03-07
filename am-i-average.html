@@ -2,8 +2,43 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<title>내 월급은 상위 몇%? — 소득 백분위 계산기 | 나는 평균인가?</title>
+<meta name="description" content="월 소득을 입력하면 한국·미국·일본·독일 4개국 기준 소득 백분위를 즉시 확인. 통계청 2024년 임금근로일자리 소득 결과 기반.">
+<meta name="keywords" content="소득백분위, 월급순위, 연봉백분위, 한국평균월급, 소득계산기, 임금통계">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://imaverage.kr/am-i-average.html">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="내 월급 상위 몇%인지 4개국 비교해봤다">
+<meta property="og:description" content="월 소득 입력 → 한국·미국·일본·독일 소득 백분위 즉시 확인. 나는 평균인가?">
+<meta property="og:url" content="https://imaverage.kr/am-i-average.html">
+<meta property="og:site_name" content="나는 평균인가?">
+<meta property="og:locale" content="ko_KR">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="내 월급 상위 몇%인지 4개국 비교해봤다">
+<meta name="twitter:description" content="월 소득 입력 → 한국·미국·일본·독일 소득 백분위 즉시 확인. 나는 평균인가?">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "소득 백분위 계산기 — 나는 평균인가?",
+  "url": "https://imaverage.kr/am-i-average.html",
+  "description": "월 소득을 입력하면 한국·미국·일본·독일 4개국 기준 소득 백분위를 즉시 확인. 통계청 2024년 임금근로일자리 소득 결과 기반.",
+  "inLanguage": "ko-KR",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "isAccessibleForFree": true,
+  "publisher": {
+    "@type": "Organization",
+    "name": "나는 평균인가?",
+    "url": "https://imaverage.kr/"
+  }
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>나는 평균인가?</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -313,6 +348,87 @@ input::placeholder { color: #ccc; }
     line-height: 1.9;
     margin-bottom: 12px;
   }
+
+  .faq-section {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+  .faq-title {
+    font-family: 'Hahmlet', serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+  }
+  .faq-item {
+    border-bottom: 1px solid #e0d8cc;
+    padding: 16px 0;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .faq-q::after {
+    content: '+';
+    font-size: 18px;
+    color: #e03e1a;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .faq-q.open::after { content: '−'; }
+  .faq-a {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.8;
+    display: none;
+  }
+  .faq-a.open { display: block; }
+
+  /* ── 새 콘텐츠 섹션 공통 ── */
+  .content-wrap { max-width: 480px; margin: 0 auto; padding: 0 20px 40px; }
+  .interpretation-box, .stat-box, .datasource-box, .faq-box {
+    background: #fff; border-radius: 20px; padding: 28px 24px;
+    margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .interpretation-box h2, .stat-box h2, .datasource-box h2, .faq-box h2 {
+    font-size: 17px; color: #1a1a1a; margin-bottom: 14px; line-height: 1.4;
+    font-weight: 700;
+  }
+  .interpretation-box p, .stat-box p {
+    font-size: 13px; color: #555; line-height: 1.9; margin-bottom: 10px;
+  }
+  .interpretation-box p:last-child, .stat-box p:last-child { margin-bottom: 0; }
+  .stat-highlight {
+    background: #f5f0e8; border-left: 3px solid #e03e1a;
+    border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 14px 0;
+    font-size: 13px; font-weight: 700; color: #1a1a1a; line-height: 1.9;
+  }
+  .datasource-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .datasource-list li {
+    background: #f5f0e8; border-radius: 10px; padding: 10px 14px;
+    font-size: 12px; font-weight: 700; color: #444;
+  }
+  .internal-links {
+    background: #fff; border-radius: 20px; padding: 20px 24px;
+    margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .internal-links p { font-size: 11px; color: #888; margin-bottom: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .internal-links-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+  .internal-link-btn {
+    flex: 1; min-width: 90px; text-align: center; padding: 10px 8px;
+    background: #f5f0e8; border-radius: 12px; text-decoration: none;
+    font-size: 12px; font-weight: 700; color: #1a1a1a; line-height: 1.5; transition: background 0.15s;
+  }
+  .internal-link-btn:hover { background: #e8e0d0; }
+  .internal-link-btn span { display: block; font-size: 20px; margin-bottom: 4px; }
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1699205924947729"
      crossorigin="anonymous"></script>
@@ -373,7 +489,68 @@ input::placeholder { color: #ccc; }
   </div>
 
 
-  <!-- 시리즈 네비게이션 -->
+  
+<div class="content-wrap">
+  <section class="interpretation-box">
+    <h2>이 결과는 어떤 의미일까요?</h2>
+    <p>백분위는 전체 집단에서 자신의 위치를 나타내는 통계 지표입니다. 상위 30%라면 전체 근로자 중 70%보다 높은 소득을 올리고 있다는 의미입니다.</p>
+    <p>소득처럼 편차가 큰 데이터에서는 평균보다 백분위가 실제 위치를 더 정확하게 보여줍니다. 고소득자가 평균을 끌어올리기 때문에 평균만 보면 자신이 낮은 위치에 있다고 오해하기 쉽습니다.</p>
+    <p>4개국 비교는 환율 변환이 아니라 해당 국가에서 그 금액을 번다고 가정했을 때의 위치입니다. 나라마다 임금 구조가 다르기 때문에 같은 금액도 나라에 따라 전혀 다른 위치가 됩니다.</p>
+  </section>
+  <section class="stat-box">
+    <h2>한국 평균 월급은 얼마일까?</h2>
+    <p>통계청 2024년 임금근로일자리 소득 결과에 따르면 한국 근로자의 월평균 소득은 약 369만원입니다. 하지만 이 숫자는 일부 고소득자에 의해 높아진 값입니다.</p>
+    <div class="stat-highlight">
+      📊 한국 월 소득 핵심 통계<br>
+      · 평균 소득: 약 369만원<br>
+      · 중위 소득: 약 250만원<br>
+      · 상위 10%: 약 700만원 이상<br>
+      · 상위 1%: 약 1,500만원 이상
+    </div>
+    <p>중위소득은 전체 근로자를 소득 순서로 줄 세웠을 때 정중앙에 위치한 사람의 소득입니다. 평균보다 중위값이 낮다는 것은 절반 이상의 근로자가 평균 이하를 받고 있다는 뜻입니다.</p>
+    <p>미국의 경우 중위 월 소득은 약 609만원 수준으로 한국보다 높지만, 물가와 생활비 수준도 훨씬 높습니다. 빅맥·스타벅스 구매력 지수를 함께 확인하면 실질 소득 수준을 더 입체적으로 파악할 수 있습니다.</p>
+    <p>소득 백분위는 취업·이직·연봉 협상 시 자신의 위치를 파악하는 데 유용합니다. 단, 이 데이터는 임금근로자 기준이며 자영업자·프리랜서는 포함되지 않습니다.</p>
+  </section>
+  <section class="datasource-box">
+    <h2>데이터 출처</h2>
+    <ul class="datasource-list">
+      <li>🇰🇷 통계청 임금근로일자리 소득 결과 2024</li>
+      <li>🇺🇸 US Census Bureau 소득 분포 통계</li>
+      <li>🇯🇵 후생노동성 임금구조기본통계조사</li>
+      <li>🇩🇪 Destatis 독일 연방통계청 소득 통계</li>
+    </ul>
+  </section>
+  <div class="internal-links">
+    <p>다른 계산기도 확인해보세요</p>
+    <div class="internal-links-grid">
+      <a href="am-i-tall.html" class="internal-link-btn"><span>📏</span>내 키는<br>몇 %?</a>
+      <a href="am-i-rich.html" class="internal-link-btn"><span>🏦</span>내 자산은<br>몇 %?</a>
+      <a href="am-i-sleepy.html" class="internal-link-btn"><span>😴</span>수면시간<br>분석</a>
+    </div>
+  </div>
+</div>
+
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"평균 월급과 중위 월급은 왜 다른가요?","acceptedAnswer":{"@type":"Answer","text":"평균은 모든 값을 더해 나눈 값이고, 중위값은 전체를 줄 세웠을 때 정가운데 값입니다. 소득처럼 편차가 큰 데이터에서는 일부 고소득자가 평균을 크게 끌어올려 중위값보다 평균이 훨씬 높게 나타납니다."}},{"@type":"Question","name":"한국 직장인 평균 월급은 얼마인가요?","acceptedAnswer":{"@type":"Answer","text":"통계청 2024년 임금근로일자리 소득 결과 기준, 월평균 소득은 약 369만원이며 중위소득은 약 250만원입니다. 절반 이상의 근로자가 월 250만원 이하를 받고 있습니다."}},{"@type":"Question","name":"소득 백분위 계산은 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"입력한 월 소득을 통계청 공식 소득 분포 데이터와 비교하여 전체 근로자 중 몇 %에 해당하는지 계산합니다. 자영업자·프리랜서는 포함되지 않은 임금근로자 기준입니다."}},{"@type":"Question","name":"4개국 소득 비교는 어떤 기준인가요?","acceptedAnswer":{"@type":"Answer","text":"환율 변환이 아닌, 동일한 금액을 해당 국가에서 번다고 가정했을 때의 위치입니다. 나라마다 임금 구조와 소득 분포가 달라 같은 금액이라도 국가별 백분위는 크게 다릅니다."}}]}</script>
+<div class="content-wrap">
+  <div class="faq-box">
+    <h2>자주 묻는 질문</h2>
+    <div class="faq-item"><div class="faq-q">평균 월급과 중위 월급은 왜 다른가요?</div><div class="faq-a">평균은 모든 값을 더해 나눈 값이고, 중위값은 전체를 줄 세웠을 때 정가운데 값입니다. 소득처럼 편차가 큰 데이터에서는 일부 고소득자가 평균을 크게 끌어올려 중위값보다 평균이 훨씬 높게 나타납니다.</div></div>
+    <div class="faq-item"><div class="faq-q">한국 직장인 평균 월급은 얼마인가요?</div><div class="faq-a">통계청 2024년 임금근로일자리 소득 결과 기준, 월평균 소득은 약 369만원이며 중위소득은 약 250만원입니다. 절반 이상의 근로자가 월 250만원 이하를 받고 있습니다.</div></div>
+    <div class="faq-item"><div class="faq-q">소득 백분위 계산은 어떻게 하나요?</div><div class="faq-a">입력한 월 소득을 통계청 공식 소득 분포 데이터와 비교하여 전체 근로자 중 몇 %에 해당하는지 계산합니다. 자영업자·프리랜서는 포함되지 않은 임금근로자 기준입니다.</div></div>
+    <div class="faq-item"><div class="faq-q">4개국 소득 비교는 어떤 기준인가요?</div><div class="faq-a">환율 변환이 아닌, 동일한 금액을 해당 국가에서 번다고 가정했을 때의 위치입니다. 나라마다 임금 구조와 소득 분포가 달라 같은 금액이라도 국가별 백분위는 크게 다릅니다.</div></div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    q.classList.toggle('open');
+    q.nextElementSibling.classList.toggle('open');
+  });
+});
+</script>
+
+<!-- 시리즈 네비게이션 -->
   <div style="background:#fff;border-radius:20px;padding:20px 24px;margin-top:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
     <div style="font-size:12px;font-weight:700;color:#888;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">시리즈 전체 보기</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -656,17 +833,49 @@ async function shareInstagram() {
 }
 </script>
 
-<div class="content-section">
-  <div class="content-box">
-    <h2>대한민국 소득, 나는 어느 위치일까?</h2>
-    
-<p>통계청이 발표한 <strong>2024년 임금근로일자리 소득 결과</strong>에 따르면, 대한민국 근로자의 월평균 소득은 약 369만원입니다. 하지만 평균은 고소득자에 의해 높아지는 경향이 있어, 실제 중위소득(딱 가운데 순위)은 약 250만원 수준입니다.</p>
-<p>소득 분포는 나라마다 크게 다릅니다. 한국에서 월 500만원을 버는 경우 상위 약 40%에 해당하지만, 같은 금액을 미국 기준으로 환산하면 중위권 수준에 불과합니다. 국가별 물가와 임금 구조가 다르기 때문입니다.</p>
-<p>이 계산기는 한국, 미국, 일본, 독일 4개국의 공식 소득 분포 데이터를 기반으로, 입력한 월 소득이 각 나라에서 몇 %에 해당하는지 보여줍니다. 단순한 숫자 비교를 넘어 빅맥·스타벅스 구매력 지수도 함께 제공해 실질 소득 수준을 직관적으로 확인할 수 있습니다.</p>
-<p style="font-size:12px;color:#aaa;margin-top:16px;">데이터 출처: 통계청 임금근로일자리 소득 결과 2024 · US Census Bureau · 후생노동성 · Destatis</p>
-
-  </div>
 </div>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "한국 직장인 평균 월급은 얼마인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "통계청 2024년 임금근로일자리 소득 결과 기준, 한국 근로자의 월평균 소득은 약 369만원이며 중위소득은 약 250만원입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "월급 상위 10%는 얼마 이상인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "한국 기준 월 소득 상위 10%는 약 700만원 이상입니다. 상위 1%는 약 1,500만원 이상으로 추정됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "소득 백분위 계산은 어떻게 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "입력한 월 소득을 통계청 공식 소득 분포 데이터와 비교하여 해당 소득이 전체 근로자 중 몇 %에 해당하는지 계산합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "4개국 비교는 어떤 기준인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "동일한 금액을 해당 국가에서 번다고 가정했을 때의 백분위입니다. 환율 변환이 아닌 각 나라의 소득 분포에서의 절대적 위치를 보여줍니다."
+      }
+    }
+  ]
+}
+</script>
 
 </body>
 </html>

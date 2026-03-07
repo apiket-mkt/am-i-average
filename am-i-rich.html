@@ -2,8 +2,43 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<title>내 자산은 상위 몇%? — 순자산 백분위 계산기 | 나는 평균인가?</title>
+<meta name="description" content="순자산을 입력하면 한국·미국·일본·독일 4개국 기준 자산 백분위를 즉시 확인. 국가데이터처 2025 가계금융복지조사 기반.">
+<meta name="keywords" content="자산백분위, 순자산순위, 한국평균자산, 부자기준, 자산계산기, 가계금융복지조사">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://imaverage.kr/am-i-rich.html">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="내 자산 상위 몇%인지 4개국 비교해봤다">
+<meta property="og:description" content="순자산 입력 → 한국·미국·일본·독일 자산 백분위 즉시 확인. 나는 평균인가?">
+<meta property="og:url" content="https://imaverage.kr/am-i-rich.html">
+<meta property="og:site_name" content="나는 평균인가?">
+<meta property="og:locale" content="ko_KR">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="내 자산 상위 몇%인지 4개국 비교해봤다">
+<meta name="twitter:description" content="순자산 입력 → 한국·미국·일본·독일 자산 백분위 즉시 확인. 나는 평균인가?">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "자산 백분위 계산기 — 나는 평균인가?",
+  "url": "https://imaverage.kr/am-i-rich.html",
+  "description": "순자산을 입력하면 한국·미국·일본·독일 4개국 기준 자산 백분위를 즉시 확인. 국가데이터처 2025 가계금융복지조사 기반.",
+  "inLanguage": "ko-KR",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "isAccessibleForFree": true,
+  "publisher": {
+    "@type": "Organization",
+    "name": "나는 평균인가?",
+    "url": "https://imaverage.kr/"
+  }
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>나는 평균인가? - 자산편</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -103,6 +138,87 @@
     line-height: 1.9;
     margin-bottom: 12px;
   }
+
+  .faq-section {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+  .faq-title {
+    font-family: 'Hahmlet', serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+  }
+  .faq-item {
+    border-bottom: 1px solid #e0d8cc;
+    padding: 16px 0;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .faq-q::after {
+    content: '+';
+    font-size: 18px;
+    color: #e03e1a;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .faq-q.open::after { content: '−'; }
+  .faq-a {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.8;
+    display: none;
+  }
+  .faq-a.open { display: block; }
+
+  /* ── 새 콘텐츠 섹션 공통 ── */
+  .content-wrap { max-width: 480px; margin: 0 auto; padding: 0 20px 40px; }
+  .interpretation-box, .stat-box, .datasource-box, .faq-box {
+    background: #fff; border-radius: 20px; padding: 28px 24px;
+    margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .interpretation-box h2, .stat-box h2, .datasource-box h2, .faq-box h2 {
+    font-size: 17px; color: #1a1a1a; margin-bottom: 14px; line-height: 1.4;
+    font-weight: 700;
+  }
+  .interpretation-box p, .stat-box p {
+    font-size: 13px; color: #555; line-height: 1.9; margin-bottom: 10px;
+  }
+  .interpretation-box p:last-child, .stat-box p:last-child { margin-bottom: 0; }
+  .stat-highlight {
+    background: #f5f0e8; border-left: 3px solid #e03e1a;
+    border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 14px 0;
+    font-size: 13px; font-weight: 700; color: #1a1a1a; line-height: 1.9;
+  }
+  .datasource-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .datasource-list li {
+    background: #f5f0e8; border-radius: 10px; padding: 10px 14px;
+    font-size: 12px; font-weight: 700; color: #444;
+  }
+  .internal-links {
+    background: #fff; border-radius: 20px; padding: 20px 24px;
+    margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .internal-links p { font-size: 11px; color: #888; margin-bottom: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .internal-links-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+  .internal-link-btn {
+    flex: 1; min-width: 90px; text-align: center; padding: 10px 8px;
+    background: #f5f0e8; border-radius: 12px; text-decoration: none;
+    font-size: 12px; font-weight: 700; color: #1a1a1a; line-height: 1.5; transition: background 0.15s;
+  }
+  .internal-link-btn:hover { background: #e8e0d0; }
+  .internal-link-btn span { display: block; font-size: 20px; margin-bottom: 4px; }
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1699205924947729"
      crossorigin="anonymous"></script>
@@ -341,17 +457,110 @@
   }
 </script>
 
-<div class="content-section">
-  <div class="content-box">
-    <h2>내 순자산은 대한민국 상위 몇 %일까?</h2>
-    
-<p>국가데이터처가 발표한 <strong>2025년 가계금융복지조사</strong>에 따르면, 대한민국 가구의 평균 순자산은 약 4억 7천만원입니다. 순자산이란 부동산·금융자산 등 보유 자산에서 대출·부채를 뺀 실질 보유액을 의미합니다.</p>
-<p>하지만 평균은 상위 자산가에 의해 크게 왜곡됩니다. 중위 순자산은 약 2억 4천만원으로, 절반의 가구가 이 금액 이하에 해당합니다. 상위 10%의 순자산은 약 11억원, 상위 1%는 약 33억원을 넘습니다.</p>
-<p>이 계산기는 한국, 미국, 일본, 독일의 공식 가계 자산 통계를 기반으로, 입력한 순자산이 각 나라에서 어느 위치인지 보여줍니다. 자산 규모를 객관적으로 파악하고 재무 목표 설정에 활용해 보세요.</p>
-<p style="font-size:12px;color:#aaa;margin-top:16px;">데이터 출처: 국가데이터처 가계금융복지조사 2025 · Fed SCF 2022 · 총무성 2019 · Bundesbank 2021</p>
+</div>
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "한국 가구의 평균 순자산은 얼마인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "국가데이터처 2025년 가계금융복지조사 기준, 한국 가구의 평균 순자산은 약 4억 7천만원이며 중위 순자산은 약 2억 4천만원입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "순자산 상위 10%는 얼마인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "한국 기준 순자산 상위 10%는 약 11억원 이상이며, 상위 1%는 약 33억원 이상입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "순자산이란 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "순자산은 부동산·금융자산 등 보유한 모든 자산의 합계에서 대출·부채를 뺀 실질 보유액입니다. 총자산과 달리 빚을 차감한 개념입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "자산 백분위는 어떻게 계산하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "입력한 순자산 금액을 공식 가계 자산 분포 데이터와 비교하여 전체 가구 중 몇 %에 해당하는지 계산합니다."
+      }
+    }
+  ]
+}
+</script>
+
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"순자산이란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"순자산은 부동산·금융자산 등 보유한 모든 자산의 합계에서 대출·부채를 뺀 실질 보유액입니다. 집이 있어도 대출이 많으면 순자산은 작을 수 있습니다."}},{"@type":"Question","name":"한국 가구 평균 순자산은 얼마인가요?","acceptedAnswer":{"@type":"Answer","text":"국가데이터처 2025년 가계금융복지조사 기준, 평균 순자산은 약 4억 7천만원이며 중위 순자산은 약 2억 4천만원입니다. 상위 10%는 약 11억원 이상입니다."}},{"@type":"Question","name":"왜 자산 평균이 중위보다 훨씬 높나요?","acceptedAnswer":{"@type":"Answer","text":"자산은 소득보다 불균등하게 분포되어 있습니다. 극소수의 고자산 가구가 평균을 크게 끌어올리기 때문에 평균(4억 7천만)과 중위(2억 4천만)의 차이가 크게 나타납니다."}},{"@type":"Question","name":"자산 백분위는 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"입력한 순자산 금액을 국가데이터처 가계금융복지조사 분포 데이터와 비교하여 전체 가구 중 몇 %에 해당하는지 계산합니다."}}]}</script>
+<div class="content-wrap">
+  <div class="faq-box">
+    <h2>자주 묻는 질문</h2>
+    <div class="faq-item"><div class="faq-q">순자산이란 무엇인가요?</div><div class="faq-a">순자산은 부동산·금융자산 등 보유한 모든 자산의 합계에서 대출·부채를 뺀 실질 보유액입니다. 집이 있어도 대출이 많으면 순자산은 작을 수 있습니다.</div></div>
+    <div class="faq-item"><div class="faq-q">한국 가구 평균 순자산은 얼마인가요?</div><div class="faq-a">국가데이터처 2025년 가계금융복지조사 기준, 평균 순자산은 약 4억 7천만원이며 중위 순자산은 약 2억 4천만원입니다. 상위 10%는 약 11억원 이상입니다.</div></div>
+    <div class="faq-item"><div class="faq-q">왜 자산 평균이 중위보다 훨씬 높나요?</div><div class="faq-a">자산은 소득보다 불균등하게 분포되어 있습니다. 극소수의 고자산 가구가 평균을 크게 끌어올리기 때문에 평균(4억 7천만)과 중위(2억 4천만)의 차이가 크게 나타납니다.</div></div>
+    <div class="faq-item"><div class="faq-q">자산 백분위는 어떻게 계산하나요?</div><div class="faq-a">입력한 순자산 금액을 국가데이터처 가계금융복지조사 분포 데이터와 비교하여 전체 가구 중 몇 %에 해당하는지 계산합니다.</div></div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    q.classList.toggle('open');
+    q.nextElementSibling.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
+
+<div class="content-wrap">
+  <section class="interpretation-box">
+    <h2>이 결과는 어떤 의미일까요?</h2>
+    <p>자산 백분위는 전체 가구 중 내 순자산이 어느 위치에 있는지를 보여줍니다. 상위 20%라면 전체 가구의 80%보다 자산이 많다는 의미입니다.</p>
+    <p>자산은 소득보다 훨씬 불균등하게 분포됩니다. 상위 소수 가구가 전체 자산의 상당 부분을 차지하기 때문에 평균 자산은 중위 자산보다 훨씬 높게 나타납니다. 그래서 자산 비교는 평균보다 백분위가 훨씬 의미있는 지표입니다.</p>
+    <p>순자산은 총 자산에서 부채를 뺀 값입니다. 주택을 보유하고 있더라도 대출이 많다면 순자산은 작을 수 있습니다.</p>
+  </section>
+  <section class="stat-box">
+    <h2>한국 평균 자산은 얼마일까?</h2>
+    <p>국가데이터처 2025년 가계금융복지조사에 따르면 한국 가구의 평균 순자산은 약 4억 7천만원입니다. 하지만 이 수치는 자산이 많은 상위 가구에 의해 높아진 값입니다.</p>
+    <div class="stat-highlight">
+      📊 한국 가구 순자산 핵심 통계<br>
+      · 평균 순자산: 약 4억 7천만원<br>
+      · 중위 순자산: 약 2억 4천만원<br>
+      · 상위 10%: 약 11억원 이상<br>
+      · 상위 1%: 약 33억원 이상<br>
+      · 10억 이상 보유 가구: 전체의 약 11.8%
+    </div>
+    <p>중위 순자산 2억 4천만원은 전체 가구의 절반이 이보다 적은 자산을 보유하고 있다는 의미입니다. 평균(4억 7천만원)과 중위(2억 4천만원)의 차이가 큰 것은 자산 불평등을 보여줍니다.</p>
+    <p>미국의 경우 평균 자산은 한국보다 높지만, 미국 내 자산 불평등도 심각합니다. 독일은 상대적으로 자산 분포가 균등한 편입니다.</p>
+    <p>자산 형성은 소득뿐만 아니라 부동산 가격 상승, 금융 투자, 상속 등 다양한 요인에 의해 영향을 받습니다. 특히 한국은 부동산 비중이 높아 거주 지역에 따라 자산 격차가 크게 나타납니다.</p>
+  </section>
+  <section class="datasource-box">
+    <h2>데이터 출처</h2>
+    <ul class="datasource-list">
+      <li>🇰🇷 국가데이터처 가계금융복지조사 2025</li>
+      <li>🇺🇸 Federal Reserve SCF 2022</li>
+      <li>🇯🇵 총무성 전국소비실태조사 2019</li>
+      <li>🇩🇪 Deutsche Bundesbank 가계자산조사 2021</li>
+    </ul>
+  </section>
+  <div class="internal-links">
+    <p>다른 계산기도 확인해보세요</p>
+    <div class="internal-links-grid">
+      <a href="am-i-average.html" class="internal-link-btn"><span>💰</span>내 소득은<br>몇 %?</a>
+      <a href="am-i-tall.html" class="internal-link-btn"><span>📏</span>내 키는<br>몇 %?</a>
+      <a href="am-i-sleepy.html" class="internal-link-btn"><span>😴</span>수면시간<br>분석</a>
+    </div>
   </div>
 </div>
 
-</body>
-</html>

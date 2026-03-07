@@ -2,9 +2,41 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<title>나는 평균인가? — 대한민국 통계 비교 계산기</title>
+<meta name="description" content="월급, 키, 자산, 수면시간이 대한민국 평균인지 확인해보세요. 통계청·WHO 공식 데이터 기반 무료 백분위 계산기.">
+<meta name="keywords" content="나는평균인가, 소득백분위, 키백분위, 자산백분위, 수면시간, 통계청, 대한민국평균">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://imaverage.kr/">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="나는 평균인가? 🤔 통계로 확인해보세요">
+<meta property="og:description" content="월급·키·자산·수면 4종 계산기. 통계청 공식 데이터로 내 백분위를 즉시 확인!">
+<meta property="og:url" content="https://imaverage.kr/">
+<meta property="og:site_name" content="나는 평균인가?">
+<meta property="og:locale" content="ko_KR">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="나는 평균인가? 🤔 통계로 확인해보세요">
+<meta name="twitter:description" content="월급·키·자산·수면 4종 계산기. 통계청 공식 데이터로 내 백분위를 즉시 확인!">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "나는 평균인가?",
+  "url": "https://imaverage.kr/",
+  "description": "월급, 키, 자산, 수면시간이 대한민국 평균인지 확인해보세요. 통계청·WHO 공식 데이터 기반 무료 백분위 계산기.",
+  "inLanguage": "ko-KR",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://imaverage.kr/{search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>나는 평균인가? — 대한민국 통계 비교 시리즈</title>
-<meta name="description" content="월급, 키, 자산, 수면시간... 나는 평균인가? 통계청 데이터로 내 위치를 확인해보세요.">
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -451,6 +483,79 @@
     line-height: 1.9;
     margin-bottom: 12px;
   }
+
+  .faq-section {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
+  .faq-title {
+    font-family: 'Hahmlet', serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+  }
+  .faq-item {
+    border-bottom: 1px solid #e0d8cc;
+    padding: 16px 0;
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .faq-q::after {
+    content: '+';
+    font-size: 18px;
+    color: #e03e1a;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .faq-q.open::after { content: '−'; }
+  .faq-a {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.8;
+    display: none;
+  }
+  .faq-a.open { display: block; }
+
+  .korea-stats-section { max-width: 640px; margin: 0 auto; padding: 0 20px 48px; }
+  .korea-stats-title {
+    font-size: 12px; font-weight: 700; color: #888;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .korea-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .korea-stat-card {
+    background: #fff; border-radius: 20px; padding: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05); text-decoration: none;
+    color: inherit; display: block; transition: transform 0.15s;
+    position: relative; overflow: hidden;
+  }
+  .korea-stat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: #e03e1a;
+  }
+  .korea-stat-card:hover { transform: translateY(-3px); }
+  .korea-stat-emoji { font-size: 24px; margin-bottom: 8px; display: block; }
+  .korea-stat-label { font-size: 11px; font-weight: 700; color: #888; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .korea-stat-value { font-weight: 700; font-size: 18px; color: #e03e1a; line-height: 1.2; margin-bottom: 4px; }
+  .korea-stat-sub { font-size: 11px; color: #aaa; line-height: 1.5; }
+  .about-section { max-width: 640px; margin: 0 auto; padding: 0 20px 48px; }
+  .about-box {
+    background: #fff; border-radius: 20px; padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .about-box h2 { font-size: 17px; color: #1a1a1a; margin-bottom: 14px; font-weight: 700; }
+  .about-box p { font-size: 13px; color: #555; line-height: 1.9; margin-bottom: 10px; }
+  .about-box p:last-child { margin-bottom: 0; }
 </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1699205924947729"
      crossorigin="anonymous"></script>
@@ -590,13 +695,117 @@
 
 <!-- FOOTER -->
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "나는 평균인가? 서비스는 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "통계청, WHO, CDC 등 공신력 있는 기관의 공식 데이터를 기반으로 소득·키·자산·수면시간이 대한민국 및 세계 평균 대비 어느 위치인지 확인하는 무료 통계 비교 서비스입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "개인정보가 수집되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "아니요. 입력한 모든 수치는 사용자의 브라우저 내에서만 처리되며 서버로 전송되거나 저장되지 않습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "데이터는 얼마나 최신인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "소득은 통계청 2024년, 자산은 국가데이터처 2025년, 수면은 통계청 2024년 생활시간조사, 키는 사이즈코리아·CDC 최신 데이터를 사용합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "모바일에서도 사용할 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네, 모든 계산기는 모바일·태블릿·PC 환경에 최적화되어 있습니다."
+      }
+    }
+  ]
+}
+</script>
+<div class="faq-section">
+  <h2 class="faq-title">자주 묻는 질문</h2>
+    <div class="faq-item">
+      <div class="faq-q">나는 평균인가? 서비스는 무엇인가요?</div>
+      <div class="faq-a">통계청, WHO, CDC 등 공신력 있는 기관의 공식 데이터를 기반으로 소득·키·자산·수면시간이 대한민국 및 세계 평균 대비 어느 위치인지 확인하는 무료 통계 비교 서비스입니다.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">개인정보가 수집되나요?</div>
+      <div class="faq-a">아니요. 입력한 모든 수치는 사용자의 브라우저 내에서만 처리되며 서버로 전송되거나 저장되지 않습니다.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">데이터는 얼마나 최신인가요?</div>
+      <div class="faq-a">소득은 통계청 2024년, 자산은 국가데이터처 2025년, 수면은 통계청 2024년 생활시간조사, 키는 사이즈코리아·CDC 최신 데이터를 사용합니다.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">모바일에서도 사용할 수 있나요?</div>
+      <div class="faq-a">네, 모든 계산기는 모바일·태블릿·PC 환경에 최적화되어 있습니다.</div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const a = q.nextElementSibling;
+    q.classList.toggle('open');
+    a.classList.toggle('open');
+  });
+});
+</script>
+
+
+<!-- 대한민국 평균 통계 섹션 -->
+<div class="korea-stats-section">
+  <div class="korea-stats-title">대한민국 평균 통계</div>
+  <div class="korea-stats-grid">
+    <a href="am-i-average.html" class="korea-stat-card">
+      <span class="korea-stat-emoji">💰</span>
+      <div class="korea-stat-label">평균 월급</div>
+      <div class="korea-stat-value">369만원</div>
+      <div class="korea-stat-sub">중위 250만원<br>통계청 2024</div>
+    </a>
+    <a href="am-i-rich.html" class="korea-stat-card">
+      <span class="korea-stat-emoji">🏦</span>
+      <div class="korea-stat-label">평균 순자산</div>
+      <div class="korea-stat-value">4억 7천만</div>
+      <div class="korea-stat-sub">중위 2억 4천만<br>국가데이터처 2025</div>
+    </a>
+    <a href="am-i-tall.html" class="korea-stat-card">
+      <span class="korea-stat-emoji">📏</span>
+      <div class="korea-stat-label">평균 키</div>
+      <div class="korea-stat-value">남 173 / 여 161</div>
+      <div class="korea-stat-sub">성인 기준 cm<br>사이즈코리아</div>
+    </a>
+    <a href="am-i-sleepy.html" class="korea-stat-card">
+      <span class="korea-stat-emoji">😴</span>
+      <div class="korea-stat-label">평균 수면시간</div>
+      <div class="korea-stat-value">8시간 1분</div>
+      <div class="korea-stat-sub">하루 평균<br>통계청 2024</div>
+    </a>
+  </div>
+</div>
+
+<!-- 서비스 소개 -->
 <div class="about-section">
   <div class="about-box">
     <h2>나는 평균인가? — 이 서비스에 대해</h2>
-    <p>우리는 종종 "내가 평균인가?"라는 질문을 떠올립니다. 월급이 많은 건지 적은 건지, 키가 큰 건지 작은 건지, 자산이 충분한 건지, 잠을 제대로 자고 있는지. 하지만 막연한 느낌으로는 객관적인 판단이 어렵습니다.</p>
-    <p>"나는 평균인가?"는 통계청, 국가데이터처, CDC, WHO 등 공신력 있는 기관의 공식 데이터를 바탕으로 내 수치가 실제로 어느 위치에 있는지 알려주는 통계 비교 서비스입니다. 소득, 키, 순자산, 수면시간 4가지 항목에 대해 국내외 백분위를 즉시 확인할 수 있습니다.</p>
-    <p>모든 계산은 브라우저 내에서만 처리되며, 입력한 수치는 어디에도 저장되거나 전송되지 않습니다. 결과는 통계적 추정치로 참고용으로만 활용하시기 바랍니다.</p>
-    <p style="font-size:12px;color:#aaa;margin-top:8px;">데이터 출처: 통계청 · 국가데이터처 · CDC · WHO · Fed · Bundesbank · 후생노동성</p>
+    <p>"내 월급이 많은 건지 적은 건지", "나는 키가 큰 편인지 작은 편인지", "자산이 충분한지", "잠을 제대로 자고 있는지". 막연한 느낌만으로는 객관적인 판단이 어렵습니다.</p>
+    <p>"나는 평균인가?"는 통계청, 국가데이터처, CDC, WHO 등 공신력 있는 기관의 공식 데이터를 바탕으로 소득·키·자산·수면시간이 실제로 어느 위치에 있는지 알려주는 무료 통계 비교 서비스입니다.</p>
+    <p>모든 계산은 브라우저 내에서만 처리되며, 입력한 수치는 어디에도 저장되거나 전송되지 않습니다. 결과는 통계적 추정치로 참고용으로 활용하시기 바랍니다.</p>
+    <p style="font-size:12px;color:#aaa;margin-top:4px;">데이터 출처: 통계청 · 국가데이터처 · CDC · WHO · Fed · Bundesbank · 후생노동성</p>
   </div>
 </div>
 
